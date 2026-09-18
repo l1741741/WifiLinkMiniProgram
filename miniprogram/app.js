@@ -16,39 +16,87 @@ App({
   },
 
   /**
-   * 根据进入小程序的参数选出门店。
+   * 从进入参数里解析门店。支持两种模式，互相不冲突：
    *
-   * 参数有两个来源，优先级从高到低：
-   *   options.id     页面间跳转自己带的（广告页 → WiFi 页）
-   *   options.scene  扫小程序码时微信带进来的
+   *   ① 内联模式 —— scene 直接带 WiFi 信息：
+   *        scene = ChinaNet-3v9I-5G~88888888
+   *      好处：门店自助出码，不用改代码、不用发版。
+   *      限制：scene 上限 32 个可见字符，且不支持中文，
+   *            所以 SSID+密码 总长必须 ≤ 31，中文 SSID 用不了。
    *
-   * 坑：scene 是 URL 编码的，必须 decodeURIComponent，
-   * 否则带中文或特殊字符的 id 永远匹配不上。
+   *   ② 门店 id 模式 —— scene 只带一个短 id，SSID/密码在 config.js 里：
+   *        scene = shop2
+   *      好处：中文店名随便写，WiFi 信息长一点也没事。
+   *      代价：改密码要重新发版。
    *
-   * 匹配不上就回退到 defaultStoreId，再回退到第一家 ——
-   * 宁可多给一家店的 WiFi，也不能因为参数错了就给用户白屏。
+   * 怎么区分：内联模式里一定有 `~`；store id 的字符集是 [A-Za-z0-9_-]，不含 `~`，
+   * 所以两者不会混淆。
+   *
+   * 分隔符为什么用 `~`：微信 scene 允许的特殊字符是
+   *   !#$&'()*+,/:;=?@-._~
+   * 其中 `~` 在 SSID 里极少见（`,` `;` `:` 都比它常见）。
+   * 而且只按**第一个** `~` 切，所以密码里带 `~` 也没问题。
    */
   resolveStore(options) {
     const cfg = this.globalData.config || {};
     const list = cfg.stores || [];
-    if (!list.length) return null;
-
     const opt = options || {};
-    let wanted = opt.id ? String(opt.id) : '';
 
-    if (!wanted && opt.scene) {
+    /*
+     * 取原始参数。
+     * scene 官方不支持 `%`，所以本来就不存在 URL 编码；
+     * decodeURIComponent 在这里其实是空操作，但保留它能兼容
+     * 自己手动传参、或以后微信放宽限制的情况。编码坏了就退回原值。
+     */
+    let raw = '';
+    if (opt.id) {
+      raw = String(opt.id);
+    } else if (opt.scene) {
       try {
-        wanted = decodeURIComponent(String(opt.scene));
+        raw = decodeURIComponent(String(opt.scene));
       } catch (e) {
-        // 编码坏了就用原始值碰碰运气，总比直接放弃强
-        wanted = String(opt.scene);
+        raw = String(opt.scene);
       }
     }
-    wanted = wanted.trim();
+    raw = raw.trim();
 
-    return list.find((s) => s.id === wanted)
+    // ① 内联模式：scene 里直接带了 SSID~密码
+    const inline = this.parseInlineWifi(raw);
+    if (inline) return inline;
+
+    // ② 门店 id 模式：按 id 查配置
+    if (!list.length) return null;
+    return list.find((s) => s.id === raw)
         || list.find((s) => s.id === cfg.defaultStoreId)
         || list[0];
+  },
+
+  /**
+   * 把 `SSID~PASSWORD` 解成门店对象。不是这个格式就返回 null。
+   *
+   * 校验从紧：SSID 为空、或场景长度超过 32 都当作不是内联模式，
+   * 交给 id 查询去处理 —— 总比解析出一个半截的 WiFi 名让顾客连不上强。
+   */
+  parseInlineWifi(raw) {
+    if (!raw || raw.length > 32) return null;
+
+    const sep = raw.indexOf('~');
+    // sep <= 0 涵盖两种情况：没有 `~`，或者 `~` 开头（SSID 为空）
+    if (sep <= 0) return null;
+
+    const ssid = raw.slice(0, sep).trim();
+    // 只按第一个 `~` 切，所以密码里带 `~` 也能完整拿到
+    const password = raw.slice(sep + 1);
+
+    if (!ssid) return null;
+
+    return {
+      id: '',
+      name: '',        // 内联模式带不了中文店名，页面只显示 SSID
+      ssid,
+      password,
+      inline: true,
+    };
   },
 
   /**

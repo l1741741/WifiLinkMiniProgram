@@ -484,6 +484,64 @@ section('⑫ 多门店解析（服务商模式的核心）');
   cfg.stores = original;
 }
 
+/* ---------------------------------------------------- 内联 scene（WiFi 信息直接写在码里） */
+section('⑬ 内联 scene —— scene 直接带 WiFi 名和密码');
+{
+  const app = loadApp('ios');
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+
+  h.page.onLoad({ scene: 'ChinaNet-3v9I-5G~88888888' });
+  eq('SSID 正确解出', h.page.data.ssid, 'ChinaNet-3v9I-5G');
+  eq('密码正确解出', h.page.data.password, '88888888');
+  // 内联模式没有中文店名，不应该凭空显示一个
+  eq('不显示店名', h.page.data.showStoreName, false);
+}
+
+{
+  // 密码里带 `~`：只按第一个 `~` 切，后面的全都算密码
+  const app = loadApp('ios');
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+  h.page.onLoad({ scene: 'Shop-Guest~pa~ss~word' });
+  eq('SSID 只切到第一个分隔符', h.page.data.ssid, 'Shop-Guest');
+  eq('密码里的 ~ 保留下来', h.page.data.password, 'pa~ss~word');
+}
+
+{
+  // 内联模式应该完全忽略 config.js 里的门店表
+  const app = loadApp('ios');
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+  h.page.onLoad({ scene: 'Inline-Test-Net~inlinepwd' });
+  eq('用的是码里的 SSID，不是配置里的', h.page.data.ssid, 'Inline-Test-Net');
+  ok('确实不是默认门店的', h.page.data.ssid !== 'ChinaNet-3v9I-5G');
+}
+
+{
+  // 各种不合法输入都不能解析成内联，得稳稳回退到 id 模式
+  const app = loadApp('ios');
+  const cases = [
+    ['没有分隔符', 'shop2'],
+    ['~ 开头（SSID 为空）', '~88888888'],
+    ['超 32 字符', 'A'.repeat(40) + '~pwd'],
+    ['空字符串', ''],
+  ];
+  for (const [label, scene] of cases) {
+    const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+    h.page.onLoad({ scene });
+    // 都应该走 id 查配置的路，落到默认门店
+    ok(`${label} → 回退到默认门店`, h.page.data.ssid === 'ChinaNet-3v9I-5G', h.page.data.ssid);
+  }
+}
+
+{
+  // 边界：刚好 32 字符应该能用（微信的上限）
+  const app = loadApp('ios');
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+  const scene = 'A'.repeat(20) + '~' + 'B'.repeat(11);   // 20+1+11 = 32
+  eq('场景长度刚好是 32', scene.length, 32);
+  h.page.onLoad({ scene });
+  eq('32 字符仍能解析', h.page.data.password, 'B'.repeat(11));
+}
+
 /* ================================================================ 汇总 */
 console.log('');
 if (failures.length) {

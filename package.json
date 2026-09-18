@@ -13,7 +13,8 @@
     "gen": "node tools/gen-qr.mjs",
     "push": "node tools/baidu-push.mjs",
     "check:mp": "node tools/check-miniprogram.mjs",
-    "test:mp": "node tools/check-miniprogram.mjs && node tools/test-miniprogram.mjs"
+    "test:mp": "node tools/check-miniprogram.mjs && node tools/test-miniprogram.mjs",
+    "mpcode": "node tools/gen-mpcode.mjs"
   },
   "engines": {
     "node": ">=18"
