@@ -3,6 +3,76 @@
  * ========================================================================== */
 const config = require('./config.js');
 
+/* ==========================================================================
+ * base64url 与 UTF-8 解码
+ * --------------------------------------------------------------------------
+ * 为什么要自己写：小程序里没有 Buffer，也不能指望有 atob
+ * （不同基础库/端上不一定提供）。用到的字符集是 base64url
+ * （A-Z a-z 0-9 - _），它完全落在微信 scene 允许的字符集内。
+ *
+ * 不依赖 padding：拼码端可能带 `=` 也可能不带，两种都要能解。
+ * ========================================================================== */
+const B64_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+
+/** base64url → Uint8Array。非法输入返回 null */
+function b64urlDecode(str) {
+  const s = String(str).replace(/=+$/, '');
+  if (!s) return new Uint8Array(0);
+
+  const out = [];
+  let buffer = 0;
+  let bits = 0;
+
+  for (let i = 0; i < s.length; i++) {
+    const v = B64_CHARS.indexOf(s[i]);
+    if (v < 0) return null;              // 出现字母表外的字符
+    buffer = (buffer << 6) | v;
+    bits += 6;
+    if (bits >= 8) {
+      bits -= 8;
+      out.push((buffer >> bits) & 0xff);
+    }
+  }
+  return new Uint8Array(out);
+}
+
+/** UTF-8 字节 → 字符串。非法 UTF-8 返回 null（这正是我们识别乱码的手段） */
+function utf8Decode(bytes) {
+  let out = '';
+  let i = 0;
+
+  while (i < bytes.length) {
+    const b = bytes[i];
+    let cp;
+    let len;
+
+    if (b < 0x80) { cp = b; len = 1; }
+    else if ((b & 0xe0) === 0xc0) { cp = b & 0x1f; len = 2; }
+    else if ((b & 0xf0) === 0xe0) { cp = b & 0x0f; len = 3; }
+    else if ((b & 0xf8) === 0xf0) { cp = b & 0x07; len = 4; }
+    else return null;
+
+    if (i + len > bytes.length) return null;
+
+    for (let k = 1; k < len; k++) {
+      const c = bytes[i + k];
+      if ((c & 0xc0) !== 0x80) return null;   // 续字节格式不对
+      cp = (cp << 6) | (c & 0x3f);
+    }
+
+    // 过长编码和代理区都是非法 UTF-8
+    if (len === 2 && cp < 0x80) return null;
+    if (len === 3 && cp < 0x800) return null;
+    if (len === 4 && cp < 0x10000) return null;
+    if (cp > 0x10ffff || (cp >= 0xd800 && cp <= 0xdfff)) return null;
+
+    out += String.fromCodePoint(cp);
+    i += len;
+  }
+
+  return out;
+}
+
 App({
   globalData: {
     config,
@@ -74,15 +144,24 @@ App({
     }
     raw = raw.trim();
 
-    // ② 内联模式：scene 里直接带了 SSID~密码
+    // ② 内联明文：scene 里有 `~`
+    // ③ base64url 编码的 scene（中文 SSID）
+    //    注意顺序：先查配置再试解码 ——
+    //    门店 id 也是 [A-Za-z0-9_-]，跟 base64url 字符集重叠，
+    //    先查配置能最大程度避免把门店 id 当成 base64 解出一堆乱码
     const inline = this.parseInlineWifi(raw);
-    if (inline) return inline;
+    if (inline && inline.via === 'scene') return inline;
 
-    // ③ 门店 id 模式：按 id 查配置
+    if (list.length) {
+      const hit = list.find((s) => s.id === raw);
+      if (hit) return hit;
+    }
+
+    if (inline && inline.via === 'scene-b64') return inline;
+
+    // ④ 门店 id 没命中 → 回退
     if (!list.length) return null;
-    return list.find((s) => s.id === raw)
-        || list.find((s) => s.id === cfg.defaultStoreId)
-        || list[0];
+    return list.find((s) => s.id === cfg.defaultStoreId) || list[0];
   },
 
   /**
@@ -150,31 +229,76 @@ App({
   },
 
   /**
-   * 把 `SSID~PASSWORD` 解成门店对象。不是这个格式就返回 null。
+   * 把 scene 解成门店对象。不是 WiFi 格式就返回 null。
    *
-   * 校验从紧：SSID 为空、或场景长度超过 32 都当作不是内联模式，
-   * 交给 id 查询去处理 —— 总比解析出一个半截的 WiFi 名让顾客连不上强。
+   * 两种形式：
+   *
+   *   ① 明文
+   *        ChinaNet-3v9I-5G~88888888
+   *      条件：SSID 和密码都是 ASCII，且总长 ≤ 32
+   *
+   *   ② base64url 编码（用于中文 SSID）
+   *        5ZKW5ZWh5Y6FV2lGaX5hYmMxMjM0NQ
+   *      为什么可以用：微信 scene 允许的字符集里已经包含 A-Z a-z 0-9 - _，
+   *      而这正好是 base64url 的字母表 —— 所以编码后**不需要 `%`**，完全合规。
+   *
+   *      代价：base64 会膨胀 33%，所以只能装得下约 23 字节原始数据
+   *      （中文 3 字节/字 → 大约 4~5 个中文字 + 8 位密码）。
+   *
+   * 怎么区分明文和编码：**看有没有 `~`**。
+   * base64url 字母表不含 `~`，所以编码后的串里一定没有它。
+   * 为了万无一失，调用方会先试门店 id 查询，查不到才走解码（见 resolveStore）。
    */
   parseInlineWifi(raw) {
     if (!raw || raw.length > 32) return null;
 
+    // ① 明文形式：有 `~`
     const sep = raw.indexOf('~');
-    // sep <= 0 涵盖两种情况：没有 `~`，或者 `~` 开头（SSID 为空）
+    if (sep > 0) {
+      const ssid = raw.slice(0, sep).trim();
+      // 只按第一个 `~` 切，所以密码里带 `~` 也能完整拿到
+      const password = raw.slice(sep + 1);
+      if (!ssid) return null;
+      return { id: '', name: '', ssid, password, inline: true, via: 'scene' };
+    }
+
+    // ② base64url 形式
+    return this.parseBase64Wifi(raw);
+  },
+
+  /**
+   * 解 base64url 编码的 scene。
+   *
+   * 校验从紧：编码后的随机字节很容易碰巧解出垃圾，而垃圾会让顾客
+   * 去连一个不存在的网络。所以必须同时满足三个条件才算数：
+   *   1. 是合法的 base64（长度、字符集）
+   *   2. 能成功 UTF-8 解码
+   *   3. 解出来的内容里确实有一个 `~`，且前面的 SSID 不为空、没有控制字符
+   */
+  parseBase64Wifi(raw) {
+    // base64 长度必须是 4 的倍数（或去掉 padding 后余 2/3）
+    const noPad = raw.replace(/=+$/, '');
+    if (noPad.length % 4 === 1) return null;
+    if (!/^[A-Za-z0-9_-]+$/.test(noPad)) return null;
+
+    const bytes = b64urlDecode(noPad);
+    if (!bytes || !bytes.length) return null;
+
+    const text = utf8Decode(bytes);
+    if (text === null) return null;
+
+    const sep = text.indexOf('~');
     if (sep <= 0) return null;
 
-    const ssid = raw.slice(0, sep).trim();
-    // 只按第一个 `~` 切，所以密码里带 `~` 也能完整拿到
-    const password = raw.slice(sep + 1);
-
+    const ssid = text.slice(0, sep).trim();
+    const password = text.slice(sep + 1);
     if (!ssid) return null;
 
-    return {
-      id: '',
-      name: '',        // 内联模式带不了中文店名，页面只显示 SSID
-      ssid,
-      password,
-      inline: true,
-    };
+    // 控制字符（含 0x00-0x1F）说明这就是一段乱码，不是真的 WiFi 名
+    // eslint-disable-next-line no-control-regex
+    if (/[\u0000-\u001f\u007f]/.test(ssid)) return null;
+
+    return { id: '', name: '', ssid, password, inline: true, via: 'scene-b64' };
   },
 
   /**

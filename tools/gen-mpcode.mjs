@@ -62,6 +62,41 @@ if (!APPID || !SECRET) {
 const SCENE_ALLOWED = /^[0-9A-Za-z!#$&'()*+,/:;=?@\-._~]+$/;
 const SCENE_MAX = 32;
 
+/** base64url 编码：字母表是 A-Z a-z 0-9 - _，完全在微信允许的字符集内 */
+const b64url = (s) => Buffer.from(s, 'utf8').toString('base64')
+  .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+/**
+ * 把 WiFi 信息编成 scene。优先用明文（不膨胀），放不下再编码。
+ *
+ * 明文： ChinaNet-3v9I-5G~88888888
+ * 编码： 5ZKW5ZWh5Y6FV2lGaX5hYmMxMjM0NQ
+ *
+ * 编码后为什么合法：微信 scene 允许的字符集里已经包含 A-Z a-z 0-9 - _，
+ * 而这正好是 base64url 的字母表 —— 所以不需要 `%`。
+ * 代价：base64 膨胀 33%，只能装下约 23 字节原始数据。
+ */
+function buildScene(ssid, password) {
+  const plain = `${ssid}~${password}`;
+
+  if (plain.length <= SCENE_MAX && SCENE_ALLOWED.test(plain)) {
+    return { scene: plain, mode: 'plain' };
+  }
+
+  const encoded = b64url(plain);
+  if (encoded.length <= SCENE_MAX) {
+    return { scene: encoded, mode: 'b64' };
+  }
+
+  // 编码了也放不下
+  const need = Math.ceil(plain.length / 3) * 4;
+  return {
+    scene: encoded,
+    mode: 'too-long',
+    why: Buffer.byteLength(plain, 'utf8') + ' 字节原始数据，编码后 ' + encoded.length + ' 字符（上限 ' + SCENE_MAX + '）',
+  };
+}
+
 /* ---------------------------------------------------------- 读门店配置 */
 const cfgSrc = fs.readFileSync(path.join(MP, 'config.js'), 'utf8');
 const mod = { exports: {} };
@@ -77,34 +112,33 @@ if (!stores.length) {
 }
 
 /* -------------------------------------------------------- 逐个校验并出码 */
-console.log('\n  校验门店 → 内联 scene 是否放得下（上限 32 字符，不支持中文）\n');
+console.log('\n  校验门店 → 内联 scene 是否放得下\n');
+console.log('  明文最高 31 字节；中文会自动转成 base64url（膨胀 33%，上限约 23 字节）\n');
 
 const ready = [];
 const blocked = [];
 
 for (const s of stores) {
-  const scene = `${s.ssid || ''}~${s.password || ''}`;
   const name = s.name || s.id || '(未命名)';
 
-  if (!s.ssid) { blocked.push({ name, scene, why: '没填 ssid' }); continue; }
+  if (!s.ssid) { blocked.push({ name, scene: '', why: '没填 ssid' }); continue; }
 
-  const badChars = [...new Set([...scene].filter((c) => !/^[0-9A-Za-z!#$&'()*+,/:;=?@\-._~]$/.test(c)))];
+  const r = buildScene(s.ssid, s.password || '');
 
-  if (badChars.length) {
-    blocked.push({ name, scene, why: `含微信不允许的字符：${badChars.join(' ')}（中文 SSID/密码用不了内联模式）` });
-  } else if (scene.length > SCENE_MAX) {
-    blocked.push({ name, scene, why: `长 ${scene.length} 字符，超出 ${SCENE_MAX}（超标 ${scene.length - SCENE_MAX}）` });
+  if (r.mode === 'too-long') {
+    blocked.push({ name, scene: r.scene, why: r.why });
   } else {
-    ready.push({ ...s, name, scene });
+    ready.push({ ...s, name, scene: r.scene, mode: r.mode });
   }
 }
 
 const pad = (t, n) => String(t).padEnd(n, ' ');
 for (const r of ready) {
-  console.log(`  \x1b[32m✓\x1b[0m ${pad(r.name, 12)} ${pad(r.scene, 34)} ${r.scene.length} 字符`);
+  const tag = r.mode === 'b64' ? '\x1b[36m[编码]\x1b[0m' : '[明文]';
+  console.log(`  \x1b[32m✓\x1b[0m ${tag} ${pad(r.name, 12)} ${pad(r.scene, 34)} ${r.scene.length} 字符`);
 }
 for (const b of blocked) {
-  console.log(`  \x1b[31m✗\x1b[0m ${pad(b.name, 12)} ${pad(b.scene, 34)} ${b.why}`);
+  console.log(`  \x1b[31m✗\x1b[0m        ${pad(b.name, 12)} ${pad(b.scene, 34)} ${b.why}`);
 }
 
 if (blocked.length) {

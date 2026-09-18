@@ -647,6 +647,85 @@ section('⑭ 扫普通链接二维码 —— 门店用草料自助出码');
   eq('没带标题就回退到配置', h.page.data.title, cfgTitle);
 }
 
+
+/* -------------------------------------------- scene 中文（base64url 编码） */
+section('⑮ 中文 SSID 走 scene —— base64url 编码');
+
+/** 拼码端怎么编码（跟 gen-mpcode.mjs 保持一致） */
+const b64url = (str) => Buffer.from(str, 'utf8').toString('base64')
+  .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+{
+  const app = loadApp('ios');
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+  const scene = b64url('咖啡厅WiFi~abc12345');
+
+  ok('编码后不含 `~`（所以能和明文区分）', !scene.includes('~'), scene);
+  ok('编码后长度 ≤ 32', scene.length <= 32, `${scene.length} 字符`);
+
+  h.page.onLoad({ scene });
+  eq('中文 SSID 解出来了', h.page.data.ssid, '咖啡厅WiFi');
+  eq('密码解出来了', h.page.data.password, 'abc12345');
+}
+
+{
+  // 带 padding 的也要能解（有些工具会带 `=`）
+  const app = loadApp('ios');
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+  h.page.onLoad({ scene: Buffer.from('海底捞-5G~88888888', 'utf8').toString('base64') });
+  eq('带 padding 也能解', h.page.data.ssid, '海底捞-5G');
+}
+
+{
+  // 明文 ASCII 形式必须不受影响（回归）
+  const app = loadApp('ios');
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+  h.page.onLoad({ scene: 'ChinaNet-3v9I-5G~88888888' });
+  eq('明文形式仍然走明文', h.page.data.ssid, 'ChinaNet-3v9I-5G');
+}
+
+{
+  // 关键：门店 id 不能被当成 base64 解出乱码
+  const cfg = loadConfig();
+  const original = JSON.parse(JSON.stringify(cfg.stores));
+  cfg.stores = [{ id: 'shop22', name: '编码冲突测试', ssid: 'REAL-SSID', password: 'realpwd' }];
+  cfg.defaultStoreId = 'shop22';
+
+  const mk = () => { const a = loadApp('ios'); a.globalData.config = cfg; return a; };
+
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app: mk() });
+  h.page.onLoad({ scene: 'shop22' });   // shop22 恰好是合法 base64 长度
+  eq('门店 id 优先于 base64 解码', h.page.data.ssid, 'REAL-SSID');
+
+  cfg.stores = original;
+}
+
+{
+  // 乱码不能骗过校验
+  const app = loadApp('ios');
+  const bad = [
+    ['解出来没有 ~',        b64url('NoSeparatorHere')],
+    ['~ 在开头（SSID 空）',  b64url('~pwdonly')],
+    ['长度不合法',          'abcde'],                    // 5 % 4 == 1
+    ['含字母表外字符',       'has space'],
+    ['非法 UTF-8 字节',      Buffer.from([0xff, 0xfe, 0x7e, 0x41]).toString('base64').replace(/\+/g,'-').replace(/\//g,'_')],
+  ];
+  for (const [label, scene] of bad) {
+    const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+    h.page.onLoad({ scene });
+    ok(`${label} → 回退到默认门店`, h.page.data.ssid === 'ChinaNet-3v9I-5G', `${scene} → ${h.page.data.ssid}`);
+  }
+}
+
+{
+  // 容量边界：算清楚到底能装多少
+  const cap = (s) => b64url(s).length;
+  ok('咖啡厅WiFi~abc12345 能装下', cap('咖啡厅WiFi~abc12345') <= 32, `${cap('咖啡厅WiFi~abc12345')} 字符`);
+  ok('星巴克WiFi~888888 能装下', cap('星巴克WiFi~888888') <= 32, `${cap('星巴克WiFi~888888')} 字符`);
+  ok('星巴克免费WiFi~coffee2026 装不下（符合预期）', cap('星巴克免费WiFi~coffee2026') > 32,
+     `${cap('星巴克免费WiFi~coffee2026')} 字符`);
+}
+
 /* ================================================================ 汇总 */
 console.log('');
 if (failures.length) {
