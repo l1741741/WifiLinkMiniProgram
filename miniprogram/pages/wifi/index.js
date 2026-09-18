@@ -44,8 +44,20 @@ Page({
   },
 
   onLoad(options) {
-    // 门店从进入参数里解析：扫专属小程序码进来会带 scene
-    const store = (app.resolveStore && app.resolveStore(options)) || null;
+    /*
+     * 合并两个来源的进入参数：
+     *   app.globalData.entry —— 进入小程序时的原始参数（扫普通链接二维码的 q、
+     *                          扫小程序码的 scene）
+     *   options              —— 本页自己的参数（从广告页跳过来时带的）
+     * URL 参数优先级更高，因为它离用户更近。
+     */
+    const entry = Object.assign(
+      {},
+      (app && app.globalData && app.globalData.entry) || {},
+      options || {}
+    );
+
+    const store = (app.resolveStore && app.resolveStore(entry)) || null;
 
     if (!store) {
       wx.showModal({

@@ -14,7 +14,8 @@
     "push": "node tools/baidu-push.mjs",
     "check:mp": "node tools/check-miniprogram.mjs",
     "test:mp": "node tools/check-miniprogram.mjs && node tools/test-miniprogram.mjs",
-    "mpcode": "node tools/gen-mpcode.mjs"
+    "mpcode": "node tools/gen-mpcode.mjs",
+    "storeqr": "node tools/gen-store-qr.mjs"
   },
   "engines": {
     "node": ">=18"

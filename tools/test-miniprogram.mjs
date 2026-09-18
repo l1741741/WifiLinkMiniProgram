@@ -542,6 +542,89 @@ section('⑬ 内联 scene —— scene 直接带 WiFi 名和密码');
   eq('32 字符仍能解析', h.page.data.password, 'B'.repeat(11));
 }
 
+/* ------------------------------------------ 扫普通链接二维码（草料自助出码） */
+section('⑭ 扫普通链接二维码 —— 门店用草料自助出码');
+{
+  const app = loadApp('ios');
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+
+  // 微信给的是「URL 编码一次的完整链接」，官方要求自行 decodeURIComponent 一次
+  const link = 'https://wifi.example.com/w/?ssid=ChinaNet-3v9I-5G&pwd=88888888';
+  h.page.onLoad({ q: encodeURIComponent(link) });
+
+  eq('SSID 解出', h.page.data.ssid, 'ChinaNet-3v9I-5G');
+  eq('密码解出', h.page.data.password, '88888888');
+}
+
+{
+  // 这是这个方式相比 scene 最大的优势：支持中文
+  const app = loadApp('ios');
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+  const link = 'https://wifi.example.com/w/?ssid=' + encodeURIComponent('咖啡厅WiFi') +
+                '&pwd=' + encodeURIComponent('密码1234') +
+                '&name=' + encodeURIComponent('悦荟城店');
+  h.page.onLoad({ q: encodeURIComponent(link) });
+
+  eq('中文 SSID 能解出（scene 模式做不到）', h.page.data.ssid, '咖啡厅WiFi');
+  eq('中文密码能解出', h.page.data.password, '密码1234');
+  eq('店名也能带进来', h.page.data.storeName, '悦荟城店');
+  ok('带店名就显示', h.page.data.showStoreName === true);
+}
+
+{
+  // 参数名做兼容，怎么拼都能用
+  const app = loadApp('ios');
+  const variants = [
+    ['ssid + pwd',      'ssid=A1&pwd=B1',            'A1', 'B1'],
+    ['ssid + password', 'ssid=A2&password=B2',       'A2', 'B2'],
+    ['简写 s + p',      's=A3&p=B3',                 'A3', 'B3'],
+    ['大写参数名',        'SSID=A4&PWD=B4',            'A4', 'B4'],
+    ['URL 里有多余参数',  'ssid=A5&pwd=B5&t=999&c=x',  'A5', 'B5'],
+  ];
+  for (const [label, qs, wantSsid, wantPwd] of variants) {
+    const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+    h.page.onLoad({ q: encodeURIComponent('https://d.com/w/?' + qs) });
+    ok(`${label} → SSID=${wantSsid}`, h.page.data.ssid === wantSsid, h.page.data.ssid);
+    ok(`${label} → 密码正确`, h.page.data.password === wantPwd, h.page.data.password);
+  }
+}
+
+{
+  // 缺 ssid 的链接不算门店链接，必须回退，不能拿半截参数骗顾客
+  const app = loadApp('ios');
+  const bad = [
+    ['只有密码', 'https://d.com/w/?pwd=123'],
+    ['没有查询串', 'https://d.com/w/'],
+    ['查询串为空', 'https://d.com/w/?'],
+  ];
+  for (const [label, link] of bad) {
+    const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+    h.page.onLoad({ q: encodeURIComponent(link) });
+    ok(`${label} → 回退到默认门店`, h.page.data.ssid === 'ChinaNet-3v9I-5G', h.page.data.ssid);
+  }
+}
+
+{
+  // q 优先级高于 scene（两者同时存在时以链接为准）
+  const app = loadApp('ios');
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+  h.page.onLoad({
+    q: encodeURIComponent('https://d.com/w/?ssid=From-Link&pwd=linkpwd'),
+    scene: 'From-Scene~scenepwd',
+  });
+  eq('q 优先于 scene', h.page.data.ssid, 'From-Link');
+}
+
+{
+  // 从广告页进来：q 存在 globalData 里，靠合并后才拿得到
+  const app = loadApp('ios');
+  app.globalData.entry = { q: encodeURIComponent('https://d.com/w/?ssid=Via-Entry&pwd=entrypwd') };
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+  h.page.onLoad({});   // 本页自身没参数
+  eq('能从 globalData 里拿到 q', h.page.data.ssid, 'Via-Entry');
+  app.globalData.entry = null;
+}
+
 /* ================================================================ 汇总 */
 console.log('');
 if (failures.length) {

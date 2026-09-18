@@ -20,9 +20,11 @@ Page({
   },
 
   onLoad(options) {
-    // 记住进入时的参数（扫门店专属小程序码会带 scene），
-    // 转到 WiFi 页时必须原样带过去，否则门店信息就丢了
+    // 记住进入时的原始参数（扫普通链接二维码会带 q，扫小程序码会带 scene），
+    // 存在 globalData 而不是拼进 URL —— 见 app.js 里的说明
     this.entryOptions = options || {};
+    const app = getApp();
+    if (app && app.globalData) app.globalData.entry = this.entryOptions;
 
     this.ad = null;
     this.timer = null;
