@@ -1,0 +1,83 @@
+<view class="wrap">
+
+  <view class="intro">
+    <view class="intro__ico">📶</view>
+    <view class="intro__t">扫码连 WiFi</view>
+    <view class="intro__s">一个帮顾客快速连接门店 WiFi 的小工具</view>
+  </view>
+
+  <view class="card">
+    <view class="sec">
+      <view class="sec__t">这个小程序是做什么的</view>
+      <view class="sec__p">
+        为线下门店提供 WiFi 连接工具服务。顾客在店内扫描二维码后，
+        可以查看该门店的 WiFi 名称，并在手机系统设置中完成连接，
+        不需要再询问店员。
+      </view>
+    </view>
+
+    <view class="sec">
+      <view class="sec__t">怎么用</view>
+      <view class="step">扫描店内张贴的二维码，打开本小程序</view>
+      <view class="step">页面上会显示该门店的 WiFi 名称</view>
+      <view class="step">点「一键连接」，按提示完成连接即可</view>
+      <view class="sec__tip">不同手机系统的连接方式不同，页面会按你的机型给出对应步骤。</view>
+    </view>
+
+    <view class="sec">
+      <view class="sec__t">我们收集哪些信息</view>
+      <view class="sec__p">
+        <text class="hl">不收集。</text>
+        本小程序不需要注册、不需要登录，不采集手机号、位置、通讯录、相册等任何个人信息。
+      </view>
+      <view class="sec__p">
+        连接 WiFi 时，安卓系统会要求授权「位置权限」——
+        这是安卓系统的设计（它把 WiFi 扫描归类为位置信息），
+        <text class="hl">不是我们在获取你的位置</text>。
+        小程序本身不读取、不存储、不上传你的位置。
+      </view>
+      <view class="sec__p">
+        WiFi 密码会复制到你的剪贴板方便粘贴，这个操作只发生在你手机本地，
+        不会发送到任何服务器。
+      </view>
+    </view>
+
+    <view class="sec">
+      <view class="sec__t">广告说明</view>
+      <view class="sec__p">
+        本小程序由广告收入支持免费运营，连接前可能会展示一段广告。
+        广告由微信广告平台提供，我们无法控制其具体内容。
+        如果你不希望观看，可以直接使用「跳过」按钮。
+      </view>
+    </view>
+
+    <view class="sec">
+      <view class="sec__t">安全提示</view>
+      <view class="sec__p">
+        公共 WiFi 环境下的设备可能相互可见。建议不要在本网络下进行网银、
+        支付等敏感操作，必要时请切换到手机流量。
+      </view>
+    </view>
+
+    <view class="sec sec--last">
+      <view class="sec__t">运营主体</view>
+      <view class="kv">
+        <text class="kv__k">名称</text>
+        <text class="kv__v">{{operator || '—'}}</text>
+      </view>
+      <view wx:if="{{hasContact}}" class="kv" bindtap="copyContact">
+        <text class="kv__k">联系</text>
+        <text class="kv__v kv__v--link">{{contact}}</text>
+      </view>
+      <view wx:if="{{updatedAt}}" class="kv">
+        <text class="kv__k">更新</text>
+        <text class="kv__v">{{updatedAt}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="foot">
+    本页内容说明本小程序的服务内容与信息处理方式。
+  </view>
+
+</view>

@@ -1,0 +1,463 @@
+/* ==========================================================================
+   扫码连 WiFi · 样式
+   ========================================================================== */
+
+:root {
+  --brand: #2f6bff;
+  --brand-d: #1e51d8;
+  --ok: #12b76a;
+  --ink: #101828;
+  --ink-2: #475467;
+  --ink-3: #98a2b3;
+  --line: #eaecf0;
+  --bg: #f5f7fb;
+  --radius: 16px;
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+/*
+ * 防御性规则：保证 hidden 属性真的隐藏元素。
+ *
+ * 浏览器默认的 [hidden]{display:none} 特异性极低，任何 .foo{display:flex}
+ * 都能把它压过去 —— 结果是 JS 里 el.hidden = true 看着生效了，
+ * 元素却还好端端显示在页面上（而且代码里读 a.hidden 也是 true，很难发现）。
+ * 这个项目里已经被同一个坑坑了两次（.banner、.btn），所以在这里一次性堵住。
+ */
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.5 -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+        "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: .02em;
+}
+
+/* ---------------------------------------------------------------- screen */
+.screen { min-height: 100dvh; display: flex; flex-direction: column; }
+.screen[hidden] { display: none; }
+
+/* ================================================================ 广告屏 */
+.screen--ad {
+  background: #12161f;
+  color: #fff;
+  padding-top: var(--safe-t);
+  padding-bottom: var(--safe-b);
+}
+
+.adbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+}
+
+.adbar__badge {
+  flex: none;
+  font-size: 11px;
+  line-height: 1;
+  padding: 4px 7px;
+  border-radius: 5px;
+  background: #2b3444;
+  color: #a9b6cc;
+  letter-spacing: .05em;
+}
+
+.adbar__hint {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  color: #8d9bb5;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.adbar__count {
+  flex: none;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: #8d9bb5;
+  min-width: 30px;
+  text-align: right;
+}
+.adbar__count[hidden] { display: none; }
+
+.adbar__skip {
+  flex: none;
+  appearance: none;
+  border: 1px solid #3d4b68;
+  background: transparent;
+  color: #fff;
+  font-size: 13px;
+  font-family: inherit;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: .2s;
+}
+.adbar__skip[hidden] { display: none; }
+.adbar__skip:disabled { color: #9aa8c0; border-color: #3a4762; cursor: default; }
+.adbar__skip:not(:disabled) { color: #fff; border-color: #5b6f96; }
+.adbar__skip:not(:disabled):active { transform: scale(.96); background: #232c3d; }
+.adbar__skip b { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.adstage {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  min-height: 46vh;
+}
+
+.adslot {
+  width: 100%;
+  max-width: 480px;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  overflow: hidden;
+}
+/* 联盟的 iframe / ins 自适应 */
+.adslot > *:not(script) { max-width: 100% !important; }
+.adslot > ins { width: 100% !important; }
+
+.adfallback {
+  position: absolute;
+  inset: 8px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: radial-gradient(120% 90% at 50% 0%, #1d2a45 0%, #12161f 68%);
+  border: 1px dashed #2c3648;
+  border-radius: 12px;
+  text-align: center;
+}
+.adfallback[hidden] { display: none; }
+
+.adfallback__ring {
+  width: 108px; height: 108px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 38px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  background: conic-gradient(#2f6bff var(--p, 0deg), #232c3d 0);
+  position: relative;
+}
+.adfallback__ring::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 50%;
+  background: #151a25;
+}
+.adfallback__ring span { position: relative; z-index: 1; }
+
+.adfallback__t { margin: 0; font-size: 15px; color: #cbd6ea; }
+.adfallback__s { margin: 0; font-size: 13px; color: #7e8ca6; }
+
+.adprog { height: 3px; background: #232c3d; }
+.adprog > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #2f6bff, #6a9bff); transition: width .25s linear; }
+
+.adfoot { padding: 14px 16px 20px; text-align: center; }
+.adfoot__lock { font-size: 12.5px; color: #7e8ca6; }
+
+/* ============================================================ WiFi 信息屏 */
+.screen--wifi { background: var(--bg); }
+
+.hd {
+  padding: calc(28px + var(--safe-t)) 20px 22px;
+  background: linear-gradient(160deg, var(--brand) 0%, var(--brand-d) 100%);
+  color: #fff;
+  text-align: center;
+  border-radius: 0 0 22px 22px;
+  box-shadow: 0 8px 26px rgba(47, 107, 255, .22);
+}
+.hd__logo {
+  width: 58px; height: 58px;
+  margin: 0 auto 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .18);
+  display: grid;
+  place-items: center;
+  font-size: 27px;
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+}
+.hd__logo img { width: 100%; height: 100%; object-fit: cover; }
+.hd__title { margin: 0; font-size: 21px; font-weight: 600; letter-spacing: .01em; }
+.hd__sub { margin: 6px 0 0; font-size: 13.5px; opacity: .82; }
+
+.wrap { flex: 1; padding: 18px 16px calc(26px + var(--safe-b)); }
+
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 4px 16px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, .05), 0 8px 22px -12px rgba(16, 24, 40, .16);
+}
+.card__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  border-bottom: 1px solid var(--line);
+}
+.card__row:last-child { border-bottom: 0; }
+.card__k { flex: none; font-size: 14px; color: var(--ink-2); }
+.card__v {
+  flex: 1;
+  text-align: right;
+  font-size: 16px;
+  font-weight: 600;
+  word-break: break-all;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.card__v--pwd { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+/* 允许长按选中/复制：万一剪贴板 API 被浏览器拦了，用户还能手动选中 */
+#wifi-pwd { -webkit-user-select: text; user-select: text; }
+
+.eye {
+  appearance: none;
+  border: 0;
+  background: #f2f4f7;
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  flex: none;
+  opacity: .5;
+}
+.eye.is-on { opacity: 1; }
+
+/* ---------------------------------------------------------------- button */
+.btn {
+  appearance: none;
+  border: 0;
+  font: inherit;
+  font-weight: 600;
+  border-radius: 13px;
+  padding: 13px 18px;
+  cursor: pointer;
+  transition: transform .08s, opacity .2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.btn:active { transform: scale(.975); }
+.btn--primary { background: var(--brand); color: #fff; box-shadow: 0 6px 18px -6px rgba(47, 107, 255, .7); }
+.btn--primary:active { background: var(--brand-d); }
+.btn--ghost { background: #f2f4f7; color: var(--ink); }
+.btn--ok { background: var(--ok); color: #fff; }
+.btn--big { width: 100%; margin-top: 16px; padding: 17px 18px; font-size: 17px; border-radius: 15px; }
+.btn__ico { font-size: 17px; }
+
+.hint {
+  margin: 11px 2px 0;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+.banner { margin-top: 18px; border-radius: 12px; overflow: hidden; background: #fff; min-height: 60px; display: flex; align-items: center; justify-content: center; }
+/* 必须显式写：上面的 display:flex 特异性高于浏览器默认的 [hidden]{display:none}，
+   不补这条规则，没开广告时页面上会敏出一个空白色块 */
+.banner[hidden] { display: none; }
+.banner > *:not(script) { max-width: 100% !important; }
+.banner:empty { display: none; }
+
+.notice {
+  margin: 18px 2px 0;
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--ink-3);
+}
+
+/* 工具页也属于同一个站点，页脚同样要展示备案信息 */
+.site-ft {
+  margin: 26px 0 4px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 11.5px;
+  line-height: 1.9;
+  color: var(--ink-3);
+  text-align: center;
+}
+.site-ft a { color: var(--ink-3); }
+.site-ft a:hover { color: var(--brand); }
+.site-ft span { display: block; }
+.site-ft a[hidden] { display: none; }
+
+/* ----------------------------------------------------------------- sheet */
+.sheet-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(16, 24, 40, .5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fade .18s ease;
+}
+.sheet-mask[hidden] { display: none; }
+@keyframes fade { from { opacity: 0 } }
+
+.sheet {
+  width: 100%;
+  max-width: 520px;
+  max-height: 92dvh;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  animation: up .26s cubic-bezier(.2, .9, .3, 1);
+}
+@keyframes up { from { transform: translateY(6%) } }
+
+.sheet__x {
+  position: absolute;
+  top: 12px; right: 12px;
+  z-index: 2;
+  width: 32px; height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: #f2f4f7;
+  color: var(--ink-2);
+  font-size: 14px;
+  cursor: pointer;
+}
+.sheet__body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 22px 18px calc(24px + var(--safe-b));
+}
+.sheet__h { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
+.sheet__p { margin: 0 0 16px; font-size: 13px; color: var(--ink-3); }
+
+.way {
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+}
+.way + .way { margin-top: 12px; }
+.way--feedback { background: #fff; }
+
+.way__tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--brand);
+  background: #e8efff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-bottom: 9px;
+}
+.way__tag--b { color: var(--ink-2); background: #eceff3; }
+
+.way__t { font-size: 14.5px; font-weight: 500; line-height: 1.55; }
+.way__s { margin: 10px 0 0; font-size: 12.5px; line-height: 1.7; color: var(--ink-2); }
+.way__acts { margin-top: 12px; display: flex; gap: 10px; }
+.way__acts .btn { flex: 1; min-width: 0; padding: 12px 8px; font-size: 14.5px; white-space: nowrap; }
+
+/* -------------------------------------------------------------------- QR */
+.qrbox {
+  position: relative;
+  width: min(264px, 70vw);
+  margin: 14px auto 0;
+  padding: 12px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 0 0 1px var(--line), 0 10px 26px -14px rgba(16, 24, 40, .35);
+}
+.qr { width: 100%; aspect-ratio: 1 / 1; display: block; }
+/* img 必须显式约束尺寸：canvas 出来的 PNG 原始尺寸接近 1000px，
+   不锁死会把弹层直接撑破 */
+.qr svg,
+.qr img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.qrbox__logo {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 21%;
+  aspect-ratio: 1/1;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 0 0 3px #fff;
+  display: grid;
+  place-items: center;
+  font-size: 17px;
+  color: var(--brand);
+}
+/* 故意不在二维码中心压 logo：中心遮挡会吃掉纠错冗余、降低相机扫码成功率。
+   这个码是产品的核心链路，美观让位于「一次扫上」。 */
+
+.or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0;
+  color: var(--ink-3);
+  font-size: 12px;
+}
+.or::before, .or::after { content: ""; height: 1px; background: var(--line); flex: 1; }
+
+.steps {
+  margin: 12px 0 0;
+  padding-left: 19px;
+  font-size: 12.5px;
+  line-height: 1.85;
+  color: var(--ink-2);
+}
+.steps li { margin-bottom: 3px; }
+.steps b { color: var(--ink); font-weight: 600; }
+
+/* ----------------------------------------------------------------- toast */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(38px + var(--safe-b));
+  transform: translateX(-50%);
+  z-index: 90;
+  background: rgba(16, 24, 40, .9);
+  color: #fff;
+  font-size: 14px;
+  padding: 11px 18px;
+  border-radius: 11px;
+  max-width: 84vw;
+  text-align: center;
+  animation: fade .18s ease;
+  /* 提示条绝不能挡点击 —— 它浮在底部，正好压在弹层按钮上，
+     z-index 又比弹层高，不加这行会把「已连上，谢谢」这类按钮的点击吃掉。
+     这个坑已经真实导致“点了一下没反应”。 */
+  pointer-events: none;
+}
+.toast[hidden] { display: none; }

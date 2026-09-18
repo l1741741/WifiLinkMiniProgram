@@ -1,0 +1,21 @@
+{
+  "name": "wifi-qr-portal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "扫码连 WiFi：H5 落地页 + 内容站 + 微信小程序（含广告与一键连接）",
+  "scripts": {
+    "dev": "node tools/serve.mjs",
+    "build": "node tools/build-site.mjs",
+    "check": "node tools/check-links.mjs",
+    "verify": "node tools/verify-qr.mjs",
+    "test": "node tools/build-site.mjs && node tools/check-links.mjs && node tools/verify-qr.mjs && node tools/check-miniprogram.mjs && node tools/test-miniprogram.mjs",
+    "gen": "node tools/gen-qr.mjs",
+    "push": "node tools/baidu-push.mjs",
+    "check:mp": "node tools/check-miniprogram.mjs",
+    "test:mp": "node tools/check-miniprogram.mjs && node tools/test-miniprogram.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

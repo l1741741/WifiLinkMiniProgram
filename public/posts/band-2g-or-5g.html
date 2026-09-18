@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2.4G 和 5G 频段怎么选：不是二选一，是分工 · 门店网络手册</title>
+<meta name="description" content="解释两个频段的物理差异，以及「双频合一」为什么经常帮倒忙。">
+<link rel="canonical" href="https://wifi.example.com/posts/band-2g-or-5g.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="门店网络手册">
+<meta property="og:title" content="2.4G 和 5G 频段怎么选：不是二选一，是分工 · 门店网络手册">
+<meta property="og:description" content="解释两个频段的物理差异，以及「双频合一」为什么经常帮倒忙。">
+<meta property="og:url" content="https://wifi.example.com/posts/band-2g-or-5g.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="hd">
+  <div class="hd__in">
+    <a class="hd__brand" href="/">
+      <span class="hd__mark" aria-hidden="true">◍</span>
+      <span class="hd__name">门店网络手册</span>
+    </a>
+    <nav class="hd__nav" aria-label="主导航"><a href="/">首页</a><a href="/category/shop-wifi.html" class="is-active" aria-current="page">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a><a href="/about.html">关于</a></nav>
+  </div>
+</header>
+
+<main id="main" class="main">
+
+<nav class="crumb" aria-label="面包屑">
+  <a href="/">首页</a> <span>›</span>
+  <a href="/category/shop-wifi.html">门店 WiFi</a> <span>›</span>
+  <span class="crumb__now">2.4G 和 5G 频段怎么选：不是二选一，是分工</span>
+</nav>
+
+<article class="post">
+  <header class="post__hd">
+    <h1 class="post__t">2.4G 和 5G 频段怎么选：不是二选一，是分工</h1>
+    <p class="post__m">
+      <a class="tag" href="/category/shop-wifi.html">门店 WiFi</a>
+      <time datetime="2026-08-04">2026-08-04</time>
+      <span>约 2 分钟</span>
+    </p>
+  </header>
+  <div class="prose">
+<p>买路由器时会看到&quot;双频&quot;这个说法，指的是它同时提供 2.4GHz 和 5GHz 两个频段。这两个频段的差别不是&quot;新的比旧的好&quot;，而是<strong>物理特性决定的取舍</strong>。</p>
+<h2>差异的根源</h2>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left"></th><th style="text-align:left">2.4GHz</th><th style="text-align:left">5GHz</th></tr></thead><tbody><tr><td style="text-align:left">波长</td><td style="text-align:left">约 12.5 厘米</td><td style="text-align:left">约 6 厘米</td></tr><tr><td style="text-align:left">穿透墙体能力</td><td style="text-align:left">强</td><td style="text-align:left">弱</td></tr><tr><td style="text-align:left">可用信道（国内）</td><td style="text-align:left">13 个，实际不重叠的只有 3 个</td><td style="text-align:left">十几个，且基本不重叠</td></tr><tr><td style="text-align:left">理论速率</td><td style="text-align:left">低</td><td style="text-align:left">高</td></tr><tr><td style="text-align:left">受干扰程度</td><td style="text-align:left">严重</td><td style="text-align:left">较轻</td></tr></tbody></table></div>
+<p><strong>穿墙能力</strong>的差异来自波长：波长越长，绕过障碍物的能力越强。所以在同一位置，5GHz 的信号穿过两堵墙后可能已经不可用，而 2.4GHz 还能连上。</p>
+<p><strong>干扰</strong>是 2.4GHz 的致命伤。它只有 1～13 信道，其中真正互不重叠的只有 <strong>1、6、11</strong> 这三个。而更麻烦的是，蓝牙、无线鼠标、微波炉、无线摄像头、婴儿监视器全部工作在 2.4GHz。</p>
+<p><strong>在商场或写字楼里，2.4GHz 通常已经挤满了。</strong> 你可以用 WiFi 分析仪扫一下，如果能看到十几个以上的邻居网络，2.4GHz 的实际体验会很差，不管你的路由器多贵。</p>
+<h2>具体怎么用</h2>
+<p><strong>给顾客用的网络，优先 5GHz。</strong> 顾客活动区域集中（大堂、就餐区），距离路由器不远，5GHz 的速率和抗干扰优势能体现出来。顾客刷视频占带宽，5GHz 的高速率也更扛得住并发。</p>
+<p><strong>给你自己的设备用 2.4GHz。</strong> 扫码枪、后厨点单屏、打印机、监控摄像头、智能插座这类设备，通常只支持 2.4GHz，而且对速率要求极低。</p>
+<p><strong>距离远、隔墙多的区域用 2.4GHz。</strong> 如果后厨离路由器隔着两堵墙，5GHz 到那儿已经没了，只能靠 2.4GHz。</p>
+<h2>「双频合一」为什么经常帮倒忙</h2>
+<p>很多路由器默认开启&quot;双频合一&quot;（有的叫 Smart Connect），把两个频段合并成一个 WiFi 名称，由路由器决定设备连哪个。</p>
+<p>听起来很智能，实际常见的问题是：</p>
+<p><strong>设备守着远处的 2.4GHz 不放。</strong> 802.11 协议规定由<strong>客户端</strong>决定什么时候漫游或切换频段，不是路由器说了算。手机走到路由器旁边了，只要当前信号还能用，它就懒得切到 5GHz，哪怕 5GHz 快好几倍。厂商用各种算法去&quot;劝&quot;设备切换，效果参差不齐。</p>
+<p><strong>结果就是：明明站在路由器旁边，网速还是很慢。</strong></p>
+<p><strong>做法</strong>：把两个频段拆成两个独立的 WiFi 名称。</p>
+<pre><code>门店名-5G     ← 给顾客，速度优先
+门店名        ← 给设备（扫码枪、摄像头、打印机）</code></pre>
+<p>顾客看到两个名字，让他连 5G 那个。多数手机上会在名称后面自动标注。如果顾客连错了，也就是慢一点，不影响使用。</p>
+<h2>一个特殊提醒：别把 5GHz 用于远距离</h2>
+<p>有些老板为了让后厨也有&quot;高速&quot;，把 5GHz 的功率开到最大。<strong>功率增益对穿墙没什么帮助</strong>，因为限制因素在接收端——手机发射回来的信号（上行）依然穿不过去。你会看到一个典型现象：</p>
+<blockquote>手机显示连着 5GHz，信号两格，但发不出消息。</blockquote>
+<p>这就是上行链路断了。这种时候把后厨的设备改连 2.4GHz 立刻就好。</p>
+  </div>
+</article>
+
+<section class="sec">
+  <h2 class="sec__t">同栏目文章</h2>
+  <ul class="cards">
+    <li class="card">
+      <a class="card__link" href="/posts/shop-wifi-password-strategy.html">
+        <h3 class="card__t">门店 WiFi 密码该不该公开：三种方案的实际代价</h3>
+        <p class="card__s">贴墙上、定期换、扫码获取——三种做法各自损失什么，凭这条来决定用哪个。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-08-18 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/router-placement.html">
+        <h3 class="card__t">路由器放哪里：位置比型号更影响信号</h3>
+        <p class="card__s">同一台路由器，换个位置覆盖范围能差一倍。这里是被忽略最多、改动成本最低的一项。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-08-11 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/optical-modem-wifi-enough.html">
+        <h3 class="card__t">光猫自带的 WiFi 够用吗：什么情况下必须加路由器</h3>
+        <p class="card__s">运营商装的那台设备同时是光猫和路由器。它的 WiFi 什么时候能用，什么时候是瓶颈。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-07-28 · 约 2 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/bandwidth-for-shop.html">
+        <h3 class="card__t">门店该办多少兆宽带：按设备数算，别按面积</h3>
+        <p class="card__s">一个可以直接套用的估算方法，以及为什么上行带宽比下行更容易先成为瓶颈。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-07-14 · 约 3 分钟</p>
+      </a>
+    </li>
+</ul>
+</section>
+
+</main>
+
+<footer class="ft">
+  <div class="ft__in">
+    <div class="ft__col">
+      <p class="ft__name">门店网络手册</p>
+      <p class="ft__desc">本站内容基于实际门店网络运维经验整理，供同行参考。</p>
+      <p class="ft__contact">联系：<a href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">栏目</p>
+      <a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">站点</p>
+      <a href="/about.html">关于我们</a>
+      <a href="/privacy.html">隐私政策</a>
+      <a href="/disclaimer.html">免责声明</a>
+      <a href="/scan/">扫码连 WiFi 工具</a>
+    </div>
+  </div>
+  <div class="ft__bar">
+    <span>© 2026 门店网络手册</span>
+    <span><span class="foot__pending">ICP 备案办理中</span></span>
+  </div>
+</footer>
+</body>
+</html>

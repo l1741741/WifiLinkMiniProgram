@@ -1,0 +1,103 @@
+.intro {
+  text-align: center;
+  padding: 24rpx 0 44rpx;
+}
+.intro__ico { font-size: 84rpx; line-height: 1; }
+.intro__t {
+  font-size: 40rpx;
+  font-weight: 600;
+  margin-top: 20rpx;
+  color: #101828;
+}
+.intro__s {
+  font-size: 26rpx;
+  color: #98a2b3;
+  margin-top: 10rpx;
+}
+
+/* 说明页字段比较多，卡片内部要留出段落间距 */
+.card { padding: 8rpx 32rpx; }
+
+.sec {
+  padding: 32rpx 0;
+  border-bottom: 1rpx solid #eaecf0;
+}
+.sec--last { border-bottom: 0; }
+
+.sec__t {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #101828;
+  margin-bottom: 16rpx;
+}
+.sec__p {
+  font-size: 27rpx;
+  line-height: 1.85;
+  color: #475467;
+  margin-bottom: 14rpx;
+}
+.sec__p:last-child { margin-bottom: 0; }
+.sec__tip {
+  margin-top: 16rpx;
+  padding: 18rpx 22rpx;
+  background: #f8fafc;
+  border-left: 6rpx solid #cbd5e1;
+  border-radius: 0 14rpx 14rpx 0;
+  font-size: 24rpx;
+  line-height: 1.7;
+  color: #667085;
+}
+
+/* 需要对方看清楚的词组，用黄底强调（和正文网页里 em 的处理一致） */
+.hl {
+  background: linear-gradient(transparent 60%, #ffe9a8 60%);
+  font-weight: 600;
+  color: #101828;
+}
+
+.step {
+  position: relative;
+  padding-left: 34rpx;
+  font-size: 27rpx;
+  line-height: 1.8;
+  color: #475467;
+  margin-bottom: 10rpx;
+}
+.step::before {
+  content: '';
+  position: absolute;
+  left: 10rpx;
+  top: 20rpx;
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: #cfd8e6;
+}
+
+.kv {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  min-height: 72rpx;
+}
+.kv__k {
+  flex: none;
+  width: 100rpx;
+  font-size: 26rpx;
+  color: #98a2b3;
+}
+.kv__v {
+  flex: 1;
+  font-size: 27rpx;
+  color: #101828;
+  word-break: break-all;
+}
+.kv__v--link { color: #2f6bff; }
+
+.foot {
+  text-align: center;
+  font-size: 23rpx;
+  color: #98a2b3;
+  line-height: 1.7;
+  padding: 40rpx 20rpx 20rpx;
+}

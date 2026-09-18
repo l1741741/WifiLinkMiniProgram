@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>光猫自带的 WiFi 够用吗：什么情况下必须加路由器 · 门店网络手册</title>
+<meta name="description" content="运营商装的那台设备同时是光猫和路由器。它的 WiFi 什么时候能用，什么时候是瓶颈。">
+<link rel="canonical" href="https://wifi.example.com/posts/optical-modem-wifi-enough.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="门店网络手册">
+<meta property="og:title" content="光猫自带的 WiFi 够用吗：什么情况下必须加路由器 · 门店网络手册">
+<meta property="og:description" content="运营商装的那台设备同时是光猫和路由器。它的 WiFi 什么时候能用，什么时候是瓶颈。">
+<meta property="og:url" content="https://wifi.example.com/posts/optical-modem-wifi-enough.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="hd">
+  <div class="hd__in">
+    <a class="hd__brand" href="/">
+      <span class="hd__mark" aria-hidden="true">◍</span>
+      <span class="hd__name">门店网络手册</span>
+    </a>
+    <nav class="hd__nav" aria-label="主导航"><a href="/">首页</a><a href="/category/shop-wifi.html" class="is-active" aria-current="page">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a><a href="/about.html">关于</a></nav>
+  </div>
+</header>
+
+<main id="main" class="main">
+
+<nav class="crumb" aria-label="面包屑">
+  <a href="/">首页</a> <span>›</span>
+  <a href="/category/shop-wifi.html">门店 WiFi</a> <span>›</span>
+  <span class="crumb__now">光猫自带的 WiFi 够用吗：什么情况下必须加路由器</span>
+</nav>
+
+<article class="post">
+  <header class="post__hd">
+    <h1 class="post__t">光猫自带的 WiFi 够用吗：什么情况下必须加路由器</h1>
+    <p class="post__m">
+      <a class="tag" href="/category/shop-wifi.html">门店 WiFi</a>
+      <time datetime="2026-07-28">2026-07-28</time>
+      <span>约 2 分钟</span>
+    </p>
+  </header>
+  <div class="prose">
+<p>装宽带时运营商送的设备（俗称光猫、天翼网关、机顶盒一体机）通常自带 WiFi。要不要再买个路由器，取决于三件事。</p>
+<h2>光猫 WiFi 的三个硬限制</h2>
+<p><strong>一、天线数量和功率被压缩</strong></p>
+<p>光猫的主要职责是光电转换，WiFi 是附赠功能。它的天线通常是内置的，数量少，发射功率按最低成本设计。同一位置同一台手机，光猫的 WiFi 覆盖范围常见只有独立路由器的一半左右。</p>
+<p><strong>二、并发连接数低</strong></p>
+<p>普通光猫的 WiFi 芯片能稳定带动的设备大概在 <strong>10～15 台</strong>。超过这个数量会出现&quot;能连上但打不开网页&quot;——不是带宽不够，是连接表满了。</p>
+<p>判断方法：数一数店里同时在线的设备。手机、笔记本、监控摄像头、扫码枪、点单屏、智能音箱、扫地机……一家中等规模的餐饮店很容易超过 20 台。</p>
+<p><strong>三、位置几乎注定是错的</strong></p>
+<p>光猫必须接光纤，而光纤入户的位置是固定的——通常是玄关的弱电箱。这是全店信号最差的位置（参见<a href="/posts/router-placement.html">《路由器放哪里》</a>），而且多数箱子还是金属门。</p>
+<h2>什么时候光猫够用</h2>
+<ul><li>店面小于 40 平米，是一整间没有隔断的厅</li><li>同时在线的设备少于 10 台</li><li>只有顾客手机和收银机上网，没有监控、点单屏等固定设备</li><li>弱电箱正好在店中间（少见，但确实有）</li></ul>
+<p>如果你符合上面全部条件，光猫的 WiFi 确实够用。<strong>不用多花钱。</strong></p>
+<h2>什么时候必须加</h2>
+<p>出现下面任何一条，就该加了：</p>
+<ul><li>在线设备超过 15 台</li><li>有隔断墙、后厨、二楼</li><li>装了 4 路以上的无线监控摄像头</li><li>顾客经常反馈卡顿或连不上</li></ul>
+<h2>加路由器时一个容易做错的设置</h2>
+<p>把路由器接到光猫上，有两种模式，<strong>选错了会出问题</strong>：</p>
+<p><strong>模式一：路由器当路由器（默认）</strong></p>
+<p>光猫只做光电转换，路由器自己拨号或获取地址，负责 WiFi 和分配 IP。</p>
+<p>问题是会产生<strong>两层网络</strong>（光猫的网段 + 路由器的网段）。这会导致：后厨的点单屏连在光猫的 WiFi 上，收银机连在路由器上，两台设备互相找不到。这类故障排查起来很费时间，因为&quot;网络明明是通的&quot;。</p>
+<p><strong>模式二：光猫改桥接，路由器拨号</strong></p>
+<p>光猫不再做路由，只做光电转换，一切交给路由器。全网只有一层网段，设备互通没有障碍。</p>
+<p>代价是：改桥接需要<strong>运营商的超级管理员密码</strong>，打电话让客服改，有的运营商会推脱。而且改完之后，运营商远程排障的能力下降，以后报修可能被要求改回来。</p>
+<p><strong>务实的做法</strong>：如果你没有需要互通的设备（比如点单屏和收银机之间没有直连需求），保持默认模式就行，别折腾。如果有互通需求，先试着把所有设备都接到<strong>同一个</strong> WiFi 下，往往就能解决，不必改桥接。</p>
+<h2>一个具体的排查技巧</h2>
+<p>如果你怀疑是光猫的 WiFi 拖后腿，不用买新设备就能验证：</p>
+<p>把光猫的 WiFi 关掉（或改个名字不用它），只用路由器试一天。如果问题消失了，就是光猫的问题。<strong>这个验证是免费的，比先买设备再试要理性。</strong></p>
+  </div>
+</article>
+
+<section class="sec">
+  <h2 class="sec__t">同栏目文章</h2>
+  <ul class="cards">
+    <li class="card">
+      <a class="card__link" href="/posts/shop-wifi-password-strategy.html">
+        <h3 class="card__t">门店 WiFi 密码该不该公开：三种方案的实际代价</h3>
+        <p class="card__s">贴墙上、定期换、扫码获取——三种做法各自损失什么，凭这条来决定用哪个。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-08-18 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/router-placement.html">
+        <h3 class="card__t">路由器放哪里：位置比型号更影响信号</h3>
+        <p class="card__s">同一台路由器，换个位置覆盖范围能差一倍。这里是被忽略最多、改动成本最低的一项。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-08-11 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/band-2g-or-5g.html">
+        <h3 class="card__t">2.4G 和 5G 频段怎么选：不是二选一，是分工</h3>
+        <p class="card__s">解释两个频段的物理差异，以及「双频合一」为什么经常帮倒忙。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-08-04 · 约 2 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/bandwidth-for-shop.html">
+        <h3 class="card__t">门店该办多少兆宽带：按设备数算，别按面积</h3>
+        <p class="card__s">一个可以直接套用的估算方法，以及为什么上行带宽比下行更容易先成为瓶颈。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-07-14 · 约 3 分钟</p>
+      </a>
+    </li>
+</ul>
+</section>
+
+</main>
+
+<footer class="ft">
+  <div class="ft__in">
+    <div class="ft__col">
+      <p class="ft__name">门店网络手册</p>
+      <p class="ft__desc">本站内容基于实际门店网络运维经验整理，供同行参考。</p>
+      <p class="ft__contact">联系：<a href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">栏目</p>
+      <a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">站点</p>
+      <a href="/about.html">关于我们</a>
+      <a href="/privacy.html">隐私政策</a>
+      <a href="/disclaimer.html">免责声明</a>
+      <a href="/scan/">扫码连 WiFi 工具</a>
+    </div>
+  </div>
+  <div class="ft__bar">
+    <span>© 2026 门店网络手册</span>
+    <span><span class="foot__pending">ICP 备案办理中</span></span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>公共 WiFi 的真实风险，以及被夸大的部分 · 门店网络手册</title>
+<meta name="description" content="分清哪些威胁今天仍然成立、哪些已经被 HTTPS 消灭了，别在不重要的地方花力气。">
+<link rel="canonical" href="https://wifi.example.com/posts/public-wifi-real-risks.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="门店网络手册">
+<meta property="og:title" content="公共 WiFi 的真实风险，以及被夸大的部分 · 门店网络手册">
+<meta property="og:description" content="分清哪些威胁今天仍然成立、哪些已经被 HTTPS 消灭了，别在不重要的地方花力气。">
+<meta property="og:url" content="https://wifi.example.com/posts/public-wifi-real-risks.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="hd">
+  <div class="hd__in">
+    <a class="hd__brand" href="/">
+      <span class="hd__mark" aria-hidden="true">◍</span>
+      <span class="hd__name">门店网络手册</span>
+    </a>
+    <nav class="hd__nav" aria-label="主导航"><a href="/">首页</a><a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html" class="is-active" aria-current="page">上网安全</a><a href="/category/faq.html">故障排查</a><a href="/about.html">关于</a></nav>
+  </div>
+</header>
+
+<main id="main" class="main">
+
+<nav class="crumb" aria-label="面包屑">
+  <a href="/">首页</a> <span>›</span>
+  <a href="/category/security.html">上网安全</a> <span>›</span>
+  <span class="crumb__now">公共 WiFi 的真实风险，以及被夸大的部分</span>
+</nav>
+
+<article class="post">
+  <header class="post__hd">
+    <h1 class="post__t">公共 WiFi 的真实风险，以及被夸大的部分</h1>
+    <p class="post__m">
+      <a class="tag" href="/category/security.html">上网安全</a>
+      <time datetime="2026-09-01">2026-09-01</time>
+      <span>约 3 分钟</span>
+    </p>
+  </header>
+  <div class="prose">
+<p>关于&quot;公共 WiFi 危险&quot;的说法很多，但其中相当一部分是十年前的经验，在今天的网络上已经不成立。分清楚这两类，才不至于把精力花在错的地方。</p>
+<h2>已经被 HTTPS 消灭的风险：流量窃听</h2>
+<p>这是流传最广的一条：连上公共 WiFi，同一网络里的人就能抓走你的账号密码。</p>
+<p><strong>在今天基本不成立了。</strong> 原因是 HTTPS 已经普及。现在主流网站、App、小程序全部走加密连接，同一局域网里的人即便抓到了数据包，看到的也是加密内容。Let's Encrypt 免费证书把 HTTPS 的使用率推到了 90% 以上，明文传输的网站已经很少。</p>
+<p><strong>例外</strong>：极少数老旧系统或内部系统仍然使用 HTTP。如果你连上公共 WiFi 后，浏览器地址栏没有那个锁形图标，且警告&quot;不安全&quot;，那这次通信确实可以被看到。</p>
+<p>判断方法很简单：<strong>看地址栏有没有锁。</strong> 有锁就基本安全，没锁就别在这上面输密码。</p>
+<h2>今天仍然成立的风险</h2>
+<h3>一、伪造的热点（钓鱼 WiFi）</h3>
+<p>有人架一个叫&quot;星巴克免费WiFi&quot;的热点，你连上去之后，打开的其实是他控制的网络。他可以：</p>
+<ul><li>把你引导到伪造的登录页，骗你输入手机号和验证码</li><li>篡改 DNS，把你导到假的银行网站</li></ul>
+<p><strong>这类攻击不需要破解加密</strong>，它骗的是你。</p>
+<p><strong>防御方法</strong>：连公共 WiFi 前跟店员确认名称。不要连名称可疑或有多份&quot;官方&quot;版本的热点。看到要求输入手机号、身份证、银行卡才能上网的页面，直接关掉。</p>
+<h3>二、局域网横向攻击</h3>
+<p>同一个网络里，设备之间默认可以互相访问。攻击者可以扫描网段，寻找开放了远程桌面、文件共享、或者弱口令的设备。</p>
+<p>这个风险对<strong>手机用户较低</strong>（手机一般不开放端口），对<strong>带笔记本办公的人较高</strong>——尤其是开启了文件共享的 Windows 电脑。</p>
+<p><strong>防御方法</strong>：带笔记本连公共 WiFi 时，在系统设置里把网络类型标为&quot;公用网络&quot;，Windows 会因此关闭文件和打印机共享。这个设置很重要，而且很多人从来没改过。</p>
+<h3>三、设备指纹与行为记录</h3>
+<p>网络运营商和 WiFi 提供方能看到：你访问了哪些域名、连接了什么时间、用了多久。在 HTTPS 普及的今天，他们看不到具体的页面内容，但<strong>域名（SNI）通常是可见的</strong>。</p>
+<p>这一条不是攻击，是客观存在的信息暴露。你在意的话，可以用 VPN 或加密 DNS。</p>
+<h2>被高估的部分</h2>
+<p><strong>&quot;连了公共 WiFi 手机就会被入侵&quot;</strong> —— 不成立。手机系统本身的沙箱隔离做得比较好，仅靠连上同一个网络，攻击者没有直接入侵手机的手段。需要配合钓鱼、诱导安装应用等手段。</p>
+<p><strong>&quot;公共 WiFi 会偷走你手机里的照片&quot;</strong> —— 不成立。同上，需要你先授权或安装恶意应用。</p>
+<p><strong>&quot;用公共 WiFi 会被人看到银行密码&quot;</strong> —— 前提是你在 HTTP 页面上输，或者被引导到钓鱼页面。正常使用银行 App（走 HTTPS + 证书校验）是安全的。</p>
+<h2>一份实际可用的清单</h2>
+<p>连公共 WiFi 时，按这个顺序做：</p>
+<ol><li><strong>跟店员确认 WiFi 名称</strong>，别连错</li><li><strong>地址栏没锁的时候不输任何密码</strong></li><li><strong>笔记本把网络设为&quot;公用&quot;</strong>，关掉文件共享</li><li><strong>涉及转账、支付时，切换到移动数据</strong>。这是最省事的兜底做法——一条 4G/5G 连接比任何安全设置都可靠</li><li><strong>不用时关掉 WiFi 自动连接</strong>，避免手机自动连上不认识的网络</li></ol>
+<p>第 4 条是真正有效的建议。与其研究公共 WiFi 的各种风险，不如在需要处理敏感操作时<strong>直接切到流量</strong>。成本几乎为零，效果立竿见影。</p>
+<h2>对店家的意义</h2>
+<p>如果你经营门店并提供顾客 WiFi，上面这些同样适用于你：</p>
+<ul><li><strong>把顾客网络和收银设备隔离</strong>（见<a href="/posts/guest-network.html">《访客网络该不该开》</a>），你的收银机就不会成为顾客设备扫描的目标</li><li><strong>在 WiFi 登录页上不要收集手机号</strong>，那是不必要的责任</li><li><strong>不要记录顾客的上网日志</strong>，除非你有明确的合规理由和告知机制</li></ul>
+<p>具体来说，顾客连你家 WiFi 时你能看到什么、看不到什么，写在<a href="/posts/what-shop-owner-can-see.html">《顾客连你家 WiFi，你能看到什么》</a>。</p>
+  </div>
+</article>
+
+<section class="sec">
+  <h2 class="sec__t">同栏目文章</h2>
+  <ul class="cards">
+    <li class="card">
+      <a class="card__link" href="/posts/what-shop-owner-can-see.html">
+        <h3 class="card__t">顾客连你家 WiFi，你能看到什么</h3>
+        <p class="card__s">逐项说明在普通家用/商用路由器上，网络所有者能观察到的信息边界。</p>
+        <p class="card__m"><span class="tag">上网安全</span> 2026-08-30 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/wifi-password-is-not-security.html">
+        <h3 class="card__t">WiFi 密码不是安全措施</h3>
+        <p class="card__s">它解决的是&quot;谁能用我的带宽&quot;，不解决&quot;谁能碰我的设备&quot;。这两件事经常被混为一谈。</p>
+        <p class="card__m"><span class="tag">上网安全</span> 2026-08-08 · 约 3 分钟</p>
+      </a>
+    </li>
+</ul>
+</section>
+
+</main>
+
+<footer class="ft">
+  <div class="ft__in">
+    <div class="ft__col">
+      <p class="ft__name">门店网络手册</p>
+      <p class="ft__desc">本站内容基于实际门店网络运维经验整理，供同行参考。</p>
+      <p class="ft__contact">联系：<a href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">栏目</p>
+      <a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">站点</p>
+      <a href="/about.html">关于我们</a>
+      <a href="/privacy.html">隐私政策</a>
+      <a href="/disclaimer.html">免责声明</a>
+      <a href="/scan/">扫码连 WiFi 工具</a>
+    </div>
+  </div>
+  <div class="ft__bar">
+    <span>© 2026 门店网络手册</span>
+    <span><span class="foot__pending">ICP 备案办理中</span></span>
+  </div>
+</footer>
+</body>
+</html>

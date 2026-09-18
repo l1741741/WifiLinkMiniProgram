@@ -1,0 +1,84 @@
+/* ==========================================================================
+ * 全局样式
+ * ========================================================================== */
+
+page {
+  --brand: #2f6bff;
+  --brand-d: #1e51d8;
+  --ok: #12b76a;
+  --ink: #101828;
+  --ink-2: #475467;
+  --ink-3: #98a2b3;
+  --line: #eaecf0;
+  --bg: #f5f7fb;
+
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 30rpx;
+  line-height: 1.6;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB',
+               'Microsoft YaHei', Helvetica, Arial, sans-serif;
+}
+
+.wrap { padding: 32rpx 28rpx 48rpx; }
+
+/* ------------------------------------------------------------------ 卡片 */
+.card {
+  background: #fff;
+  border-radius: 28rpx;
+  padding: 8rpx 32rpx;
+  box-shadow: 0 2rpx 4rpx rgba(16, 24, 40, .05), 0 16rpx 44rpx -24rpx rgba(16, 24, 40, .18);
+}
+.row {
+  display: flex;
+  align-items: center;
+  min-height: 112rpx;
+  border-bottom: 1rpx solid var(--line);
+}
+.row:last-child { border-bottom: 0; }
+.row__k { flex: none; color: var(--ink-2); font-size: 28rpx; }
+.row__v {
+  flex: 1;
+  text-align: right;
+  font-weight: 600;
+  font-size: 32rpx;
+  word-break: break-all;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+}
+
+/* ------------------------------------------------------------------ 按钮 */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  width: 100%;
+  padding: 32rpx;
+  border-radius: 28rpx;
+  font-size: 34rpx;
+  font-weight: 600;
+  border: 0;
+  line-height: 1.2;
+}
+.btn::after { border: 0; }
+.btn--primary { background: var(--brand); color: #fff; }
+.btn--primary:active { background: var(--brand-d); }
+.btn--ghost { background: #f2f4f7; color: var(--ink); }
+.btn--ghost:active { background: #e8ebf0; }
+.btn--ok { background: var(--ok); color: #fff; }
+.btn[disabled] { opacity: .5; }
+
+/* ------------------------------------------------------------------ 头部 */
+.hd {
+  padding: 56rpx 40rpx 44rpx;
+  background: linear-gradient(160deg, var(--brand) 0%, var(--brand-d) 100%);
+  color: #fff;
+  text-align: center;
+  border-radius: 0 0 40rpx 40rpx;
+}
+.hd__ico { font-size: 68rpx; line-height: 1; margin-bottom: 20rpx; }
+.hd__t { font-size: 42rpx; font-weight: 600; }
+.hd__s { font-size: 26rpx; opacity: .82; margin-top: 10rpx; }
+
+.hint { text-align: center; font-size: 24rpx; color: var(--ink-3); margin: 22rpx 0 0; }
+.notice { font-size: 24rpx; line-height: 1.7; color: var(--ink-3); margin: 34rpx 8rpx 0; }

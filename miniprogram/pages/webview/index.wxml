@@ -1,0 +1,2 @@
+<!-- src 由页面 query 决定，必须有业务域名配置才能打开 -->
+<web-view src="{{url}}" binderror="onError"></web-view>

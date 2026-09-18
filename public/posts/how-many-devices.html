@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>一台路由器能带多少台设备：看三个数，不看天线数 · 门店网络手册</title>
+<meta name="description" content="为什么标称 1200M 的路由器带 30 台设备就卡了，以及该看哪些真实指标。">
+<link rel="canonical" href="https://wifi.example.com/posts/how-many-devices.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="门店网络手册">
+<meta property="og:title" content="一台路由器能带多少台设备：看三个数，不看天线数 · 门店网络手册">
+<meta property="og:description" content="为什么标称 1200M 的路由器带 30 台设备就卡了，以及该看哪些真实指标。">
+<meta property="og:url" content="https://wifi.example.com/posts/how-many-devices.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="hd">
+  <div class="hd__in">
+    <a class="hd__brand" href="/">
+      <span class="hd__mark" aria-hidden="true">◍</span>
+      <span class="hd__name">门店网络手册</span>
+    </a>
+    <nav class="hd__nav" aria-label="主导航"><a href="/">首页</a><a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html" class="is-active" aria-current="page">故障排查</a><a href="/about.html">关于</a></nav>
+  </div>
+</header>
+
+<main id="main" class="main">
+
+<nav class="crumb" aria-label="面包屑">
+  <a href="/">首页</a> <span>›</span>
+  <a href="/category/faq.html">故障排查</a> <span>›</span>
+  <span class="crumb__now">一台路由器能带多少台设备：看三个数，不看天线数</span>
+</nav>
+
+<article class="post">
+  <header class="post__hd">
+    <h1 class="post__t">一台路由器能带多少台设备：看三个数，不看天线数</h1>
+    <p class="post__m">
+      <a class="tag" href="/category/faq.html">故障排查</a>
+      <time datetime="2026-09-05">2026-09-05</time>
+      <span>约 3 分钟</span>
+    </p>
+  </header>
+  <div class="prose">
+<p>&quot;我买的是 1200M 的路由器，怎么会不够用？&quot;——这个 1200M 和你理解的&quot;能带多少设备&quot;没有关系。</p>
+<h2>三个真正决定上限的数</h2>
+<h3>一、并发连接数（NAT 会话表大小）</h3>
+<p>每台设备打开一个网页，背后是十几个到几十个 TCP 连接。一台手机正常使用时的并发连接数大约 <strong>50 到 200</strong>。</p>
+<p>路由器需要维护一张表来记录所有这些连接。家用/入门商用路由器的表大小通常在 <strong>4096 到 16384</strong> 条之间。</p>
+<p>按每台设备平均 100 条算：</p>
+<pre><code>8192 ÷ 100 ≈ 80 台（理论极限，实际要留余量）</code></pre>
+<p>超过之后的表现是：<strong>能连上 WiFi，但打不开网页</strong>。因为新的连接建不起来。这就是第一章说的&quot;连接表满了&quot;。</p>
+<h3>二、WiFi 芯片的并发客户端数</h3>
+<p>这是更早出现的瓶颈。普通家用路由器的 WiFi 芯片能稳定处理的客户端数量大约在 <strong>15 到 30 台</strong>。超过后表现为延迟飙升、丢包，即便连接表还没满。</p>
+<p><strong>和连接数一样，这个指标在商品页上基本不写。</strong></p>
+<h3>三、CPU 和内存</h3>
+<p>连接数越高，路由器 CPU 需要处理的包转发和状态维护就越多。低端路由器的单核 CPU 在几百 Mbps 转发时就会打满，表现为全网络变慢。</p>
+<h2>&quot;1200M&quot; 是什么意思</h2>
+<p><code>AC1200</code> <code>AX3000</code> 这类数字是<strong>理论无线速率的总和</strong>，而且通常是两个频段相加：</p>
+<pre><code>AC1200 = 2.4GHz 的 300M + 5GHz 的 867M ≈ 1167，取整叫 1200</code></pre>
+<p><strong>这是所有设备共享的总带宽上限</strong>，不是每台设备的带宽。而且实际速率通常只有理论值的 <strong>40% 到 60%</strong>，因为协议开销、干扰和距离都在损耗。</p>
+<p>所以 AC1200 的路由器，实际总吞吐大概在 500 到 700 Mbps 之间。30 台设备同时看视频，每台分到 20 Mbps 左右，勉强够；有人下载就崩了。</p>
+<h2>实践中的数量参考</h2>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">路由器档次</th><th style="text-align:left">稳定带机量</th><th style="text-align:left">适用场景</th></tr></thead><tbody><tr><td style="text-align:left">光猫自带 WiFi</td><td style="text-align:left">10～15 台</td><td style="text-align:left">极小型店面</td></tr><tr><td style="text-align:left">入门家用（150～300 元）</td><td style="text-align:left">15～25 台</td><td style="text-align:left">小型奶茶店、便利店</td></tr><tr><td style="text-align:left">中端（500～900 元）</td><td style="text-align:left">30～50 台</td><td style="text-align:left">中型餐厅、咖啡馆</td></tr><tr><td style="text-align:left">商用 AP + 控制器</td><td style="text-align:left">每 AP 50～100 台</td><td style="text-align:left">大型场所、多 AP 组网</td></tr></tbody></table></div>
+<p>&quot;带机量&quot;指的是<strong>同时在线</strong>，不是一天内的总客流。一家餐厅一天来 500 位顾客，但同时在线的可能只有 20 台手机。</p>
+<h2>数一数你的实际设备数</h2>
+<p>很多老板低估了。清点一下：</p>
+<ul><li>顾客手机（按座位数 × 1.5 估）</li><li>店员的手机</li><li>收银机、点单屏、后厨屏</li><li>监控摄像头（<strong>每一路算一台</strong>，4 路摄像头就是 4 台）</li><li>扫码枪、电子秤、打印机</li><li>智能音箱、电视、广告屏</li><li>路由器、AP 自身</li></ul>
+<p>一家有 20 个座位、4 路监控、2 台收银机的餐厅，峰值在线设备大概是 <strong>40 台</strong>。这就是为什么入门路由器带不动。</p>
+<h2>不够用的时候怎么办</h2>
+<p><strong>第一步：把能走有线的都改成有线。</strong></p>
+<p>收银机、点单屏、监控录像机、电视——这些设备位置固定，拉一根网线过去，立刻从 WiFi 的负担变成不存在。这一步往往能直接减少 10 到 20 台无线设备，<strong>成本只是一根网线</strong>。</p>
+<p><strong>第二步：缩短 DHCP 租期。</strong></p>
+<p>把租期从默认的 24 小时改成 2 小时，加快地址回收。这一步解决的是&quot;地址池耗尽&quot;，不是&quot;带机量不足&quot;，但对客流大的店很有效。</p>
+<p><strong>第三步：加 AP，而不是加&quot;更强的路由器&quot;。</strong></p>
+<p>如果上面两步做完还不够，正确做法是<strong>加一个接入点（AP）分担无线负载</strong>，而不是买更贵的单台路由器。</p>
+<p>一台 300 元的路由器，用网线接到主路由上、关掉它的 DHCP、设置成 AP 模式，就能分担 20 多台设备。这比换一台 1500 元的旗舰机更有效，因为<strong>瓶颈在无线芯片的并发能力，而多一台设备就是多一颗芯片</strong>。</p>
+<p>注意要<strong>有线连接</strong>。如果是无线桥接，两个 AP 之间共享同一段无线频谱，反而更慢。</p>
+<h2>一个快速判断方法</h2>
+<p>不确定自己的路由器是不是到瓶颈了，看后台这两个数：</p>
+<ul><li><strong>CPU 占用</strong>：长期超过 70% 说明处理能力不够</li><li><strong>内存占用</strong>：接近 90% 说明会话表要满了</li></ul>
+<p>多数路由器后台都能看到。这两个数字比任何参数表都真实。</p>
+  </div>
+</article>
+
+<section class="sec">
+  <h2 class="sec__t">同栏目文章</h2>
+  <ul class="cards">
+    <li class="card">
+      <a class="card__link" href="/posts/connected-but-no-internet.html">
+        <h3 class="card__t">信号满格却上不了网：按这个顺序排查</h3>
+        <p class="card__s">一个高频故障的排查流程。从最可能的开始，避免一上来就重启。</p>
+        <p class="card__m"><span class="tag">故障排查</span> 2026-09-12 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/wifi-drops-frequently.html">
+        <h3 class="card__t">WiFi 频繁掉线：按&quot;掉线范围&quot;定位原因</h3>
+        <p class="card__s">是所有设备一起掉，还是只有一台？这一个问题就能把原因缩小到两三类。</p>
+        <p class="card__m"><span class="tag">故障排查</span> 2026-08-22 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/slow-wifi-diagnosis.html">
+        <h3 class="card__t">网速慢，先分清是哪一段慢</h3>
+        <p class="card__s">宽带、路由器、无线三个环节分别可能慢在哪，以及怎么用两步测出瓶颈。</p>
+        <p class="card__m"><span class="tag">故障排查</span> 2026-08-14 · 约 3 分钟</p>
+      </a>
+    </li>
+</ul>
+</section>
+
+</main>
+
+<footer class="ft">
+  <div class="ft__in">
+    <div class="ft__col">
+      <p class="ft__name">门店网络手册</p>
+      <p class="ft__desc">本站内容基于实际门店网络运维经验整理，供同行参考。</p>
+      <p class="ft__contact">联系：<a href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">栏目</p>
+      <a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">站点</p>
+      <a href="/about.html">关于我们</a>
+      <a href="/privacy.html">隐私政策</a>
+      <a href="/disclaimer.html">免责声明</a>
+      <a href="/scan/">扫码连 WiFi 工具</a>
+    </div>
+  </div>
+  <div class="ft__bar">
+    <span>© 2026 门店网络手册</span>
+    <span><span class="foot__pending">ICP 备案办理中</span></span>
+  </div>
+</footer>
+</body>
+</html>

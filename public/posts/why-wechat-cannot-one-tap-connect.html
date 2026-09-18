@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>为什么微信里不能一键连 WiFi：浏览器能力的边界 · 门店网络手册</title>
+<meta name="description" content="从系统权限角度解释这个限制，以及在此前提下能做到的最好体验是什么。">
+<link rel="canonical" href="https://wifi.example.com/posts/why-wechat-cannot-one-tap-connect.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="门店网络手册">
+<meta property="og:title" content="为什么微信里不能一键连 WiFi：浏览器能力的边界 · 门店网络手册">
+<meta property="og:description" content="从系统权限角度解释这个限制，以及在此前提下能做到的最好体验是什么。">
+<meta property="og:url" content="https://wifi.example.com/posts/why-wechat-cannot-one-tap-connect.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="hd">
+  <div class="hd__in">
+    <a class="hd__brand" href="/">
+      <span class="hd__mark" aria-hidden="true">◍</span>
+      <span class="hd__name">门店网络手册</span>
+    </a>
+    <nav class="hd__nav" aria-label="主导航"><a href="/">首页</a><a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html" class="is-active" aria-current="page">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a><a href="/about.html">关于</a></nav>
+  </div>
+</header>
+
+<main id="main" class="main">
+
+<nav class="crumb" aria-label="面包屑">
+  <a href="/">首页</a> <span>›</span>
+  <a href="/category/connect.html">顾客连接</a> <span>›</span>
+  <span class="crumb__now">为什么微信里不能一键连 WiFi：浏览器能力的边界</span>
+</nav>
+
+<article class="post">
+  <header class="post__hd">
+    <h1 class="post__t">为什么微信里不能一键连 WiFi：浏览器能力的边界</h1>
+    <p class="post__m">
+      <a class="tag" href="/category/connect.html">顾客连接</a>
+      <time datetime="2026-08-25">2026-08-25</time>
+      <span>约 2 分钟</span>
+    </p>
+  </header>
+  <div class="prose">
+<p>这是被问得最多的问题之一，也是很多商户被第三方服务商误导的地方。有些服务商会承诺&quot;扫码后点一下就能自动连上&quot;，这件事<strong>在网页里做不到</strong>，不管找谁做。</p>
+<p>原因不在技术难度，在于系统的安全设计。</p>
+<h2>一条硬边界</h2>
+<p>手机操作系统没有给浏览器开放配置 WiFi 的权限。</p>
+<p>浏览器能做的事被严格限制在沙箱里：读写 DOM、发网络请求、访问有限的硬件（相机、麦克风、地理位置，且都要用户授权）。<strong>配置网络连接不在这个清单里。</strong></p>
+<p>原因也合理：如果一个网页能静默把你的手机连到某个热点，那它就能把你引到一个伪造的热点上做中间人攻击。这个能力不能给。</p>
+<h2>各平台的具体情况</h2>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">环境</th><th style="text-align:left">能否代码连接 WiFi</th><th style="text-align:left">说明</th></tr></thead><tbody><tr><td style="text-align:left">iOS Safari</td><td style="text-align:left">否</td><td style="text-align:left">iOS 10 起关闭了 <code>App-Prefs:root=WIFI</code> 这类设置页深链</td></tr><tr><td style="text-align:left">Android Chrome</td><td style="text-align:left">否</td><td style="text-align:left">会拦截网页发起的 <code>intent://</code> 跳转</td></tr><tr><td style="text-align:left">微信内置浏览器</td><td style="text-align:left">否</td><td style="text-align:left">同样受限，且更保守</td></tr><tr><td style="text-align:left">微信小程序</td><td style="text-align:left">曾有 <code>wx.connectWifi</code></td><td style="text-align:left"><strong>微信官方文档已标注该系列接口下架</strong></td></tr><tr><td style="text-align:left">原生 App</td><td style="text-align:left">是</td><td style="text-align:left">需要上架、需要用户装机，对扫码场景太重</td></tr></tbody></table></div>
+<p>关于小程序那一条值得展开：小程序确实提供过 <code>wx.startWifi</code> / <code>wx.connectWifi</code> 接口，能实现真正的代码直连。但现在微信官方文档在 WiFi 开发指南页面上直接写着<strong>&quot;该系列接口已下架&quot;</strong>，而且个人主体的小程序本来就没有这个权限，需要企业主体 + 认证 + 审核。</p>
+<p>所以如果你看到有服务商说&quot;用我们的小程序可以一键连&quot;，先问清楚：<strong>接口权限是怎么来的、你的主体能不能申请到。</strong> 这大概率是做不到的承诺。</p>
+<h2>那能做到的最好体验是什么</h2>
+<p>把可行路径都摊开，让顾客选最顺手的那条。实际能做到这个程度：</p>
+<p><strong>路径一：自动复制密码 + 分步引导（覆盖 100% 的设备）</strong></p>
+<p>页面加载时就把密码写进剪贴板，然后告诉顾客：打开设置 → 无线局域网 → 找到这个网络 → 长按密码框粘贴 → 加入。</p>
+<p>动作多一点，但没有任何机型限制。这是兜底方案，必须做。</p>
+<p><strong>路径二：页面上画一个系统级 WiFi 二维码</strong></p>
+<p>就是上一篇文章讲的那种 <code>WIFI:</code> 格式的码。让顾客<strong>截图，然后打开相册轻点二维码</strong>——iOS 17 以上和较新的 Android 相册都支持直接从图片识别并连接。</p>
+<p>注意这条路径的前提：<strong>不能让顾客用同一台手机的相机去扫自己屏幕上的码。</strong> 这是设计这类页面时最容易犯的逻辑错误。所以它的真实适用场景是&quot;旁边有第二台手机&quot;或者&quot;截图后用相册识别&quot;。</p>
+<p><strong>路径三：跳转系统设置页</strong></p>
+<p>Android 上可以尝试用 <code>intent://</code> 唤起 WiFi 设置页，但多数浏览器会拦截。可以试，不能指望。</p>
+<h2>一个务实的判断</h2>
+<p>如果一次连接需要顾客点 4 到 5 下，这个体验是<strong>可以接受</strong>的。真正不可接受的是让顾客找不到北——所以文案里要把每一步写清楚，并且按机型给出不同的步骤。</p>
+<p>反过来说，如果哪个方案承诺&quot;一次点击就连接&quot;，那么它要么是在小程序里（权限存疑），要么是原生 App（成本高一个量级），要么是在骗你。</p>
+<p>判断标准很简单：<strong>让对方给你看一个能用的线上演示，用你的手机当场试。</strong> 试不出来就不用谈了。</p>
+  </div>
+</article>
+
+<section class="sec">
+  <h2 class="sec__t">同栏目文章</h2>
+  <ul class="cards">
+    <li class="card">
+      <a class="card__link" href="/posts/wifi-qr-format.html">
+        <h3 class="card__t">WiFi 二维码是怎么工作的：WIFI: 协议格式详解</h3>
+        <p class="card__s">手机相机凭什么扫一下就能连网？拆开看这个不成文但被广泛支持的标准。</p>
+        <p class="card__m"><span class="tag">顾客连接</span> 2026-09-08 · 约 2 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/guest-network.html">
+        <h3 class="card__t">访客网络该不该开：一个和&quot;防蹭网&quot;无关的理由</h3>
+        <p class="card__s">开访客网络的主要收益不是省带宽，而是把你的收银机和顾客的手机隔开。</p>
+        <p class="card__m"><span class="tag">顾客连接</span> 2026-08-16 · 约 2 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/free-wifi-cost-model.html">
+        <h3 class="card__t">免费 WiFi 的成本该由谁承担</h3>
+        <p class="card__s">把带宽、设备、维护三笔账算清楚，再看广告、涨价、还是自己扛更合算。</p>
+        <p class="card__m"><span class="tag">顾客连接</span> 2026-08-02 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/qr-vs-password-poster.html">
+        <h3 class="card__t">扫码连 WiFi 和贴密码，哪种顾客体验更好</h3>
+        <p class="card__s">把两种方式的完整操作步数摊开数一遍，结论和直觉不太一样。</p>
+        <p class="card__m"><span class="tag">顾客连接</span> 2026-07-21 · 约 2 分钟</p>
+      </a>
+    </li>
+</ul>
+</section>
+
+</main>
+
+<footer class="ft">
+  <div class="ft__in">
+    <div class="ft__col">
+      <p class="ft__name">门店网络手册</p>
+      <p class="ft__desc">本站内容基于实际门店网络运维经验整理，供同行参考。</p>
+      <p class="ft__contact">联系：<a href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">栏目</p>
+      <a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">站点</p>
+      <a href="/about.html">关于我们</a>
+      <a href="/privacy.html">隐私政策</a>
+      <a href="/disclaimer.html">免责声明</a>
+      <a href="/scan/">扫码连 WiFi 工具</a>
+    </div>
+  </div>
+  <div class="ft__bar">
+    <span>© 2026 门店网络手册</span>
+    <span><span class="foot__pending">ICP 备案办理中</span></span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<view class="hd">
+  <view class="hd__ico">📶</view>
+  <view class="hd__t">{{title}}</view>
+  <view class="hd__s">
+    <block wx:if="{{showStoreName}}">{{storeName}} · 扫码连接</block>
+    <block wx:else>扫码连接，无需询问店员</block>
+  </view>
+</view>
+
+<view class="wrap">
+
+  <view class="card">
+    <view wx:if="{{showStoreName}}" class="row">
+      <text class="row__k">门店</text>
+      <text class="row__v">{{storeName}}</text>
+    </view>
+    <view class="row">
+      <text class="row__k">网络名称</text>
+      <text class="row__v">{{ssid}}</text>
+    </view>
+    <view class="row">
+      <text class="row__k">密码</text>
+      <view class="row__pwd">
+        <text class="row__v">{{pwdShown ? password : '••••••••'}}</text>
+        <view class="eye {{pwdShown ? 'eye--on' : ''}}" bindtap="togglePwd">{{pwdShown ? '🙈' : '👁'}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 状态提示 -->
+  <view wx:if="{{statusText}}" class="status status--{{status}}">
+    <text>{{statusText}}</text>
+  </view>
+
+  <!-- 主按钮 -->
+  <button
+    wx:if="{{status !== 'connected'}}"
+    class="btn btn--primary btn--big"
+    loading="{{status === 'working'}}"
+    bindtap="onConnect">⚡ {{btnText}}</button>
+
+  <button
+    wx:if="{{canRetry}}"
+    class="btn btn--primary btn--big"
+    bindtap="checkAgain">我连好了，检查一下</button>
+
+  <button class="btn btn--ghost btn--m" bindtap="copyPassword">再复制一次密码</button>
+
+  <!-- 按机型给步骤，这两种文案差别很大，混着写顾客会走错 -->
+  <view class="way">
+    <view class="way__tag">{{isIOS ? 'iPhone 连接步骤' : (isAndroid ? '安卓连接步骤' : '连接步骤')}}</view>
+
+    <block wx:if="{{isIOS}}">
+      <view class="step">点上方「一键连接 WiFi」，系统会弹出「加入网络」</view>
+      <view class="step">点「加入」即可，密码会自动带上</view>
+      <view class="step">如果没弹窗：打开「设置 → 无线局域网」，找到该网络，长按密码框粘贴</view>
+    </block>
+
+    <block wx:elif="{{isAndroid}}">
+      <view class="step">点「复制密码并打开设置」，会跳到系统 WiFi 设置页</view>
+      <view class="step">在列表里找到该网络并点击</view>
+      <view class="step">长按密码输入框 → 粘贴 → 点「连接」</view>
+      <view class="step-tip">安卓 10 以上系统限制：小程序自己连的 WiFi 其他应用用不了，所以必须到系统设置里连</view>
+    </block>
+
+    <block wx:else>
+      <view class="step">密码已复制到剪贴板</view>
+      <view class="step">打开手机的 WiFi 设置，找到该网络</view>
+      <view class="step">粘贴密码并连接</view>
+    </block>
+  </view>
+
+  <view wx:if="{{autoCopyHint}}" class="hint">{{autoCopyHint}}</view>
+
+  <view wx:if="{{notice}}" class="notice">{{notice}}</view>
+
+  <!-- 服务说明入口：审核方会找这个，顾客想了解也方便 -->
+  <view class="more" bindtap="openAbout">服务说明 · 我们怎么处理你的信息 ›</view>
+
+</view>

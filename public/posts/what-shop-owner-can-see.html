@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>顾客连你家 WiFi，你能看到什么 · 门店网络手册</title>
+<meta name="description" content="逐项说明在普通家用/商用路由器上，网络所有者能观察到的信息边界。">
+<link rel="canonical" href="https://wifi.example.com/posts/what-shop-owner-can-see.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="门店网络手册">
+<meta property="og:title" content="顾客连你家 WiFi，你能看到什么 · 门店网络手册">
+<meta property="og:description" content="逐项说明在普通家用/商用路由器上，网络所有者能观察到的信息边界。">
+<meta property="og:url" content="https://wifi.example.com/posts/what-shop-owner-can-see.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="hd">
+  <div class="hd__in">
+    <a class="hd__brand" href="/">
+      <span class="hd__mark" aria-hidden="true">◍</span>
+      <span class="hd__name">门店网络手册</span>
+    </a>
+    <nav class="hd__nav" aria-label="主导航"><a href="/">首页</a><a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html" class="is-active" aria-current="page">上网安全</a><a href="/category/faq.html">故障排查</a><a href="/about.html">关于</a></nav>
+  </div>
+</header>
+
+<main id="main" class="main">
+
+<nav class="crumb" aria-label="面包屑">
+  <a href="/">首页</a> <span>›</span>
+  <a href="/category/security.html">上网安全</a> <span>›</span>
+  <span class="crumb__now">顾客连你家 WiFi，你能看到什么</span>
+</nav>
+
+<article class="post">
+  <header class="post__hd">
+    <h1 class="post__t">顾客连你家 WiFi，你能看到什么</h1>
+    <p class="post__m">
+      <a class="tag" href="/category/security.html">上网安全</a>
+      <time datetime="2026-08-30">2026-08-30</time>
+      <span>约 3 分钟</span>
+    </p>
+  </header>
+  <div class="prose">
+<p>这个问题有两个方向：店家想知道自己能拿到什么数据（多数是想做运营），顾客想知道自己暴露了多少（多数是担心隐私）。两边都答一下。</p>
+<p>以下全部基于<strong>普通路由器，不装任何额外设备</strong>的前提。</p>
+<h2>能看到</h2>
+<p><strong>一、连接设备的列表</strong></p>
+<p>路由器后台会显示当前连着的设备：MAC 地址、分配的内网 IP、连接时长。MAC 地址是设备的硬件标识。</p>
+<p><strong>注意</strong>：iOS 14 和 Android 10 之后，系统默认对每个 WiFi 使用<strong>随机 MAC 地址</strong>，而且会定期更换。所以同一个顾客今天和明天连你的网，MAC 大概率不一样。<strong>你无法用它来识别回头客。</strong>（可以在系统设置里关掉这个功能，但那是顾客的选择，不是你能控制的。）</p>
+<p><strong>二、每台设备的实时和累计流量</strong></p>
+<p>能看出哪台设备用得多。这可以用来判断有没有人在挂下载。</p>
+<p><strong>三、访问的域名</strong></p>
+<p>如果你在路由器上开启了 DNS 日志或流量记录，能看到设备访问了哪些<strong>域名</strong>（如 <code>mp.weixin.qq.com</code>）。看到的是域名，不是具体页面。</p>
+<p><strong>四、连接和断开的时间</strong></p>
+<p>能知道某台设备什么时间段在线。</p>
+<h2>看不到</h2>
+<p><strong>一、具体的网页内容和聊天记录</strong></p>
+<p>HTTPS 加密之后，内容不可见。顾客在微信里聊什么、看了哪个视频、输入了什么密码，都看不到。</p>
+<p><strong>二、顾客的身份</strong></p>
+<p>MAC 地址随机化了，也拿不到手机号，除非顾客主动在登录页填写。</p>
+<p><strong>三、确切位置</strong></p>
+<p>路由器知道设备在信号范围内，但给不出精确位置。</p>
+<h2>想做运营的话，什么才是可行的</h2>
+<p>很多店主想要&quot;知道谁来了、来了几次&quot;，用来做会员或复购分析。<strong>技术上做不到</strong>，原因就是 MAC 随机化。</p>
+<p>其他常见做法的问题：</p>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">想法</th><th style="text-align:left">为什么不行</th></tr></thead><tbody><tr><td style="text-align:left">用 MAC 识别回头客</td><td style="text-align:left">系统随机化后失效</td></tr><tr><td style="text-align:left">抓取顾客微信 / 手机号</td><td style="text-align:left">需要顾客主动授权，且涉及个人信息保护法合规</td></tr><tr><td style="text-align:left">记录浏览记录做推荐</td><td style="text-align:left">看不到内容；记录域名做画像的意义很有限</td></tr><tr><td style="text-align:left">靠 WiFi 登录页强制关注公众号</td><td style="text-align:left">微信明令禁止，会被封号</td></tr></tbody></table></div>
+<p><strong>可行的替代方案</strong>：</p>
+<ul><li><strong>短信验证码登录 WiFi</strong>：能拿到手机号，但需要顾客同意，且你必须配隐私政策、说明用途。这是正规做法，成本是要对接短信服务并承担合规责任</li><li><strong>店内扫码领券 / 加企业微信</strong>：顾客主动扫码，转化更真实，也完全不涉及网络层的数据采集</li><li><strong>收银系统的会员数据</strong>：这才是真正有价值的复购数据，和 WiFi 无关</li></ul>
+<p><strong>结论</strong>：指望用 WiFi 做顾客识别，投入产出比很差。想在 WiFi 页面上放个引导关注公众号的入口是可以的，但&quot;强制关注才能上网&quot;违法也违规。</p>
+<h2>顾客该知道的</h2>
+<p>如果你是顾客，想减少暴露：</p>
+<ol><li><strong>保持系统默认的随机 MAC</strong>（iOS/Android 新版本默认开启），店家无法用 MAC 追踪你</li><li><strong>别在没锁的页面上输任何东西</strong></li><li>处理敏感操作时<strong>切到移动数据</strong></li></ol>
+<h2>店家该知道的合规底线</h2>
+<p>提供顾客 WiFi 时，两件事要注意：</p>
+<p><strong>不要超范围采集。</strong> 只是为了让人上网，就不该收集手机号、身份证、位置。收集了就要有用途说明和保存期限，这是《个人信息保护法》的要求。</p>
+<p><strong>不要留存上网日志。</strong> 除非有明确的法律要求，否则留存顾客的访问记录只会给你自己增加泄露风险和合规责任。多数路由器默认不记录，保持默认就好。</p>
+<p>具体到本站工具页的做法，写在<a href="/privacy.html">隐私政策</a>里。</p>
+  </div>
+</article>
+
+<section class="sec">
+  <h2 class="sec__t">同栏目文章</h2>
+  <ul class="cards">
+    <li class="card">
+      <a class="card__link" href="/posts/public-wifi-real-risks.html">
+        <h3 class="card__t">公共 WiFi 的真实风险，以及被夸大的部分</h3>
+        <p class="card__s">分清哪些威胁今天仍然成立、哪些已经被 HTTPS 消灭了，别在不重要的地方花力气。</p>
+        <p class="card__m"><span class="tag">上网安全</span> 2026-09-01 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/wifi-password-is-not-security.html">
+        <h3 class="card__t">WiFi 密码不是安全措施</h3>
+        <p class="card__s">它解决的是&quot;谁能用我的带宽&quot;，不解决&quot;谁能碰我的设备&quot;。这两件事经常被混为一谈。</p>
+        <p class="card__m"><span class="tag">上网安全</span> 2026-08-08 · 约 3 分钟</p>
+      </a>
+    </li>
+</ul>
+</section>
+
+</main>
+
+<footer class="ft">
+  <div class="ft__in">
+    <div class="ft__col">
+      <p class="ft__name">门店网络手册</p>
+      <p class="ft__desc">本站内容基于实际门店网络运维经验整理，供同行参考。</p>
+      <p class="ft__contact">联系：<a href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">栏目</p>
+      <a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">站点</p>
+      <a href="/about.html">关于我们</a>
+      <a href="/privacy.html">隐私政策</a>
+      <a href="/disclaimer.html">免责声明</a>
+      <a href="/scan/">扫码连 WiFi 工具</a>
+    </div>
+  </div>
+  <div class="ft__bar">
+    <span>© 2026 门店网络手册</span>
+    <span><span class="foot__pending">ICP 备案办理中</span></span>
+  </div>
+</footer>
+</body>
+</html>

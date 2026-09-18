@@ -1,0 +1,32 @@
+<view class="ad">
+
+  <view class="ad__bar">
+    <text class="ad__badge">广告</text>
+    <text class="ad__hint">{{realAd ? '看完广告即可获取 WiFi 信息' : 'WiFi 服务由广告支持'}}</text>
+    <view wx:if="{{canSkip}}" class="ad__skip" bindtap="onSkip">跳过</view>
+  </view>
+
+  <view class="ad__stage">
+    <!-- 真广告由微信原生组件渲染，这里只在它没出图时显示等待态 -->
+    <view wx:if="{{realAd}}" class="ad__waiting">
+      <text class="ad__ring">{{left}}</text>
+      <text class="ad__t">广告加载中…</text>
+    </view>
+
+    <!-- 倒计时兜底 -->
+    <block wx:else>
+      <view class="ad__placeholder">
+        <text class="ad__ring">{{left}}</text>
+        <text class="ad__t">WiFi 服务由广告支持</text>
+        <text class="ad__s">{{adFailed ? '广告暂时加载不出来，很快就放你过去' : '正在为你准备网络连接…'}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="ad__prog">
+    <view class="ad__prog-in" style="width: {{(total - left) / total * 100}}%"></view>
+  </view>
+
+  <view class="ad__foot">🔒 WiFi 信息将在广告结束后显示</view>
+
+</view>

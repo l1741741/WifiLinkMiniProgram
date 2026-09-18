@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>访客网络该不该开：一个和&quot;防蹭网&quot;无关的理由 · 门店网络手册</title>
+<meta name="description" content="开访客网络的主要收益不是省带宽，而是把你的收银机和顾客的手机隔开。">
+<link rel="canonical" href="https://wifi.example.com/posts/guest-network.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="门店网络手册">
+<meta property="og:title" content="访客网络该不该开：一个和&quot;防蹭网&quot;无关的理由 · 门店网络手册">
+<meta property="og:description" content="开访客网络的主要收益不是省带宽，而是把你的收银机和顾客的手机隔开。">
+<meta property="og:url" content="https://wifi.example.com/posts/guest-network.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="hd">
+  <div class="hd__in">
+    <a class="hd__brand" href="/">
+      <span class="hd__mark" aria-hidden="true">◍</span>
+      <span class="hd__name">门店网络手册</span>
+    </a>
+    <nav class="hd__nav" aria-label="主导航"><a href="/">首页</a><a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html" class="is-active" aria-current="page">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a><a href="/about.html">关于</a></nav>
+  </div>
+</header>
+
+<main id="main" class="main">
+
+<nav class="crumb" aria-label="面包屑">
+  <a href="/">首页</a> <span>›</span>
+  <a href="/category/connect.html">顾客连接</a> <span>›</span>
+  <span class="crumb__now">访客网络该不该开：一个和&quot;防蹭网&quot;无关的理由</span>
+</nav>
+
+<article class="post">
+  <header class="post__hd">
+    <h1 class="post__t">访客网络该不该开：一个和&quot;防蹭网&quot;无关的理由</h1>
+    <p class="post__m">
+      <a class="tag" href="/category/connect.html">顾客连接</a>
+      <time datetime="2026-08-16">2026-08-16</time>
+      <span>约 2 分钟</span>
+    </p>
+  </header>
+  <div class="prose">
+<p>多数路由器都有一个&quot;访客网络&quot;（Guest Network）功能，默认是关的。很多老板觉得没必要——反正密码都给了，开不开有什么区别。</p>
+<p>区别在于<strong>网络隔离</strong>，而这个区别比省带宽重要得多。</p>
+<h2>不开访客网络的时候发生了什么</h2>
+<p>默认情况下，所有连到你路由器的设备处于<strong>同一个局域网</strong>。这意味着：</p>
+<ul><li>顾客的手机能直接访问你的收银机</li><li>你的监控录像机对顾客手机可见</li><li>后厨的点单屏能被顾客手机访问到</li></ul>
+<p>这不是理论风险。局域网内扫描工具是现成的，装一个 App 就能列出网段里所有设备的 IP 和开放的端口。绝大多数收银机、监控 NVR 用的是出厂默认密码或者弱密码。</p>
+<p><strong>真正的问题不是顾客里有黑客</strong>，而是顾客的手机可能已经中了恶意软件。一台被感染的手机自动扫描局域网、尝试弱口令登录，这个过程完全不需要机主知情。你的收银机就是这么被入侵的。</p>
+<h2>访客网络做了什么</h2>
+<p>开启后，路由器会创建第二个 WiFi 名称，并<strong>在网络层把访客设备和主网络隔离开</strong>——访客之间互相看不到，也看不到主网络里的任何设备。</p>
+<p>对顾客来说没有任何区别：一样上网，一样刷视频。对你来说，收银机从顾客的可达范围内消失了。</p>
+<h2>一个必须注意的坑</h2>
+<p><strong>不是所有路由器的&quot;访客网络&quot;都真的做隔离。</strong></p>
+<p>有些廉价路由器的访客网络只是换了个 WiFi 名称和密码，底层还是同一个网段，隔离等于没有。判断方法：</p>
+<ol><li>手机连访客网络，记下分配的 IP（一般是 192.168.x.y）</li><li>电脑连主网络，查自己的 IP</li><li>如果两者前三段相同（比如都是 192.168.1.x），说明<strong>没有隔离</strong></li><li>真正的隔离通常是不同的网段，例如主网 192.168.1.x、访客 192.168.2.x 或 10.0.0.x</li></ol>
+<p>买路由器时可以留意产品说明里有没有明确写&quot;访客网络支持 AP 隔离&quot;或&quot;VLAN 隔离&quot;。没写的基本可以认为没有。</p>
+<h2>该给哪些设备用哪个网络</h2>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">设备</th><th style="text-align:left">接到哪个网络</th><th style="text-align:left">原因</th></tr></thead><tbody><tr><td style="text-align:left">顾客手机</td><td style="text-align:left">访客网络</td><td style="text-align:left">客流来源不可控</td></tr><tr><td style="text-align:left">你自己的手机、办公电脑</td><td style="text-align:left">主网络</td><td style="text-align:left">需要访问内部设备</td></tr><tr><td style="text-align:left">收银机、点单屏</td><td style="text-align:left"><strong>主网络，且用网线</strong></td><td style="text-align:left">最关键的设备，能走有线就走有线</td></tr><tr><td style="text-align:left">监控摄像头</td><td style="text-align:left">主网络</td><td style="text-align:left">涉及隐私录像，不能让顾客可达</td></tr><tr><td style="text-align:left">扫码枪、智能插座</td><td style="text-align:left">主网络</td><td style="text-align:left">通常只支持 2.4GHz，且需要和收银机通信</td></tr></tbody></table></div>
+<h2>顺便解决限速问题</h2>
+<p>访客网络通常还带限速选项。给顾客限一个<strong>每台设备 10～20 Mbps</strong>：</p>
+<ul><li>单台设备看 1080p 视频需要 5～8 Mbps，20 Mbps 完全够用</li><li>限速后，一台设备挂下载也不会把整条宽带吃干</li><li>顾客的体感几乎无差别</li></ul>
+<p>这个设置比换密码管用得多，而且不需要通知任何人。</p>
+<h2>一句话总结</h2>
+<p><strong>开访客网络的理由是隔离，不是防蹭网。</strong></p>
+<p>如果你的路由器不支持真正的隔离，也不必立刻换设备——把收银机、监控、点单屏这些关键设备<strong>用网线接到路由器上</strong>，同时确认路由器没有开启&quot;无线桥接&quot;之类的功能，也能大幅降低风险。有线设备不参与无线侧的邻居发现，被扫到的概率低很多。</p>
+  </div>
+</article>
+
+<section class="sec">
+  <h2 class="sec__t">同栏目文章</h2>
+  <ul class="cards">
+    <li class="card">
+      <a class="card__link" href="/posts/wifi-qr-format.html">
+        <h3 class="card__t">WiFi 二维码是怎么工作的：WIFI: 协议格式详解</h3>
+        <p class="card__s">手机相机凭什么扫一下就能连网？拆开看这个不成文但被广泛支持的标准。</p>
+        <p class="card__m"><span class="tag">顾客连接</span> 2026-09-08 · 约 2 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/why-wechat-cannot-one-tap-connect.html">
+        <h3 class="card__t">为什么微信里不能一键连 WiFi：浏览器能力的边界</h3>
+        <p class="card__s">从系统权限角度解释这个限制，以及在此前提下能做到的最好体验是什么。</p>
+        <p class="card__m"><span class="tag">顾客连接</span> 2026-08-25 · 约 2 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/free-wifi-cost-model.html">
+        <h3 class="card__t">免费 WiFi 的成本该由谁承担</h3>
+        <p class="card__s">把带宽、设备、维护三笔账算清楚，再看广告、涨价、还是自己扛更合算。</p>
+        <p class="card__m"><span class="tag">顾客连接</span> 2026-08-02 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/qr-vs-password-poster.html">
+        <h3 class="card__t">扫码连 WiFi 和贴密码，哪种顾客体验更好</h3>
+        <p class="card__s">把两种方式的完整操作步数摊开数一遍，结论和直觉不太一样。</p>
+        <p class="card__m"><span class="tag">顾客连接</span> 2026-07-21 · 约 2 分钟</p>
+      </a>
+    </li>
+</ul>
+</section>
+
+</main>
+
+<footer class="ft">
+  <div class="ft__in">
+    <div class="ft__col">
+      <p class="ft__name">门店网络手册</p>
+      <p class="ft__desc">本站内容基于实际门店网络运维经验整理，供同行参考。</p>
+      <p class="ft__contact">联系：<a href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">栏目</p>
+      <a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">站点</p>
+      <a href="/about.html">关于我们</a>
+      <a href="/privacy.html">隐私政策</a>
+      <a href="/disclaimer.html">免责声明</a>
+      <a href="/scan/">扫码连 WiFi 工具</a>
+    </div>
+  </div>
+  <div class="ft__bar">
+    <span>© 2026 门店网络手册</span>
+    <span><span class="foot__pending">ICP 备案办理中</span></span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>网速慢，先分清是哪一段慢 · 门店网络手册</title>
+<meta name="description" content="宽带、路由器、无线三个环节分别可能慢在哪，以及怎么用两步测出瓶颈。">
+<link rel="canonical" href="https://wifi.example.com/posts/slow-wifi-diagnosis.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="门店网络手册">
+<meta property="og:title" content="网速慢，先分清是哪一段慢 · 门店网络手册">
+<meta property="og:description" content="宽带、路由器、无线三个环节分别可能慢在哪，以及怎么用两步测出瓶颈。">
+<meta property="og:url" content="https://wifi.example.com/posts/slow-wifi-diagnosis.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="hd">
+  <div class="hd__in">
+    <a class="hd__brand" href="/">
+      <span class="hd__mark" aria-hidden="true">◍</span>
+      <span class="hd__name">门店网络手册</span>
+    </a>
+    <nav class="hd__nav" aria-label="主导航"><a href="/">首页</a><a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html" class="is-active" aria-current="page">故障排查</a><a href="/about.html">关于</a></nav>
+  </div>
+</header>
+
+<main id="main" class="main">
+
+<nav class="crumb" aria-label="面包屑">
+  <a href="/">首页</a> <span>›</span>
+  <a href="/category/faq.html">故障排查</a> <span>›</span>
+  <span class="crumb__now">网速慢，先分清是哪一段慢</span>
+</nav>
+
+<article class="post">
+  <header class="post__hd">
+    <h1 class="post__t">网速慢，先分清是哪一段慢</h1>
+    <p class="post__m">
+      <a class="tag" href="/category/faq.html">故障排查</a>
+      <time datetime="2026-08-14">2026-08-14</time>
+      <span>约 3 分钟</span>
+    </p>
+  </header>
+  <div class="prose">
+<p>&quot;网速慢&quot;是最模糊的描述。同样这句话，可能是宽带的锅，可能是路由器的锅，也可能是无线信号的锅——<strong>这三种情况的修法完全不同。</strong></p>
+<p>花五分钟测一次，就能知道该修哪个。</p>
+<h2>第一步：把三段分开</h2>
+<p>网络路径是这样的：</p>
+<pre><code>运营商宽带  →  光猫  →  路由器  →  无线信号  →  你的手机
+   ↑            ↑        ↑            ↑
+ 第一段       第二段    第三段       第四段</code></pre>
+<p><strong>测法：用网线把笔记本直接接到路由器上测速。</strong></p>
+<p>这是关键一步——网线绕开了无线部分，测出来的结果代表前三段的真实能力。</p>
+<p>测速用 <code>speedtest.cn</code>（国内节点准）或运营商自己的测速页。测三次取平均，不要在有人下载的时候测。</p>
+<h3>用有线测速的结果判断</h3>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">有线实测</th><th style="text-align:left">你的宽带</th><th style="text-align:left">结论</th></tr></thead><tbody><tr><td style="text-align:left">接近标称值</td><td style="text-align:left">100M</td><td style="text-align:left">前三段正常，问题在<strong>无线</strong></td></tr><tr><td style="text-align:left">明显低于标称（如 100M 只测到 30M）</td><td style="text-align:left">100M</td><td style="text-align:left">问题在<strong>前三段</strong>，继续往下查</td></tr><tr><td style="text-align:left">一到晚上就掉</td><td style="text-align:left">任意</td><td style="text-align:left">大概率是<strong>运营商侧</strong>高峰拥塞</td></tr></tbody></table></div>
+<h2>第二步：查前三段</h2>
+<h3>宽带本身够不够</h3>
+<p>先算你需要多少。按 <strong>每台同时在线设备 5～10 Mbps</strong> 估：</p>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">场景</th><th style="text-align:left">建议带宽</th></tr></thead><tbody><tr><td style="text-align:left">10 台设备，主要刷微信、扫码支付</td><td style="text-align:left">50～100M</td></tr><tr><td style="text-align:left">20 台设备，有人看视频</td><td style="text-align:left">200M</td></tr><tr><td style="text-align:left">30 台以上，含监控回传、直播</td><td style="text-align:left">500M 以上</td></tr></tbody></table></div>
+<p><strong>注意上行带宽。</strong> 绝大多数家用宽带的上行只有下行的 1/10 到 1/5。如果你有监控需要远程查看、或者有人直播，<strong>上行会先成为瓶颈</strong>。500M 下行 / 30M 上行的套餐，同时两路监控远程回传就占满了。</p>
+<h3>路由器是不是瓶颈</h3>
+<p>路由器的实际吞吐能力远低于标称值。而且要看<strong>网口速率</strong>：</p>
+<ul><li>百兆网口的路由器，<strong>实测最多 90 多 Mbps</strong>，不管 WiFi 标称多少</li><li>千兆网口才能发挥 100M 以上宽带</li></ul>
+<p>很多老板升级了 500M 宽带，但路由器还是百兆口的旧设备，测速永远到不了 90M 以上。<strong>先确认路由器的 WAN/LAN 口是千兆的。</strong></p>
+<p>判断方法：看路由器参数里网口写的是&quot;10/100Mbps&quot;还是&quot;10/100/1000Mbps&quot;。或者看型号——一般型号里带 <code>AC1200</code> 以上、且是近三年产品的都是千兆口。</p>
+<h3>光猫有没有限制</h3>
+<p>老款光猫可能只有百兆口，或者光纤本身的速率档位没升级。打运营商客服确认一下&quot;实际开通的带宽档位&quot;，有时候升级了套餐但设备没换。</p>
+<h2>第三步：查无线</h2>
+<p>有线测速正常，但手机测速慢，问题在无线。按影响程度排查：</p>
+<p><strong>1. 用的是 2.4GHz 还是 5GHz</strong></p>
+<p>2.4GHz 实际速率通常在 50～150 Mbps 之间，且很容易被干扰压到 20 Mbps 以下。如果你手机显示连的是 2.4GHz，<strong>先切到 5GHz 再测</strong>。</p>
+<p>很多情况下这一步就解决问题了。</p>
+<p><strong>2. 信号强度</strong></p>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">强度</th><th style="text-align:left">实际速率</th></tr></thead><tbody><tr><td style="text-align:left">-50 dBm 以内</td><td style="text-align:left">能跑满</td></tr><tr><td style="text-align:left">-60 dBm</td><td style="text-align:left">大约降一半</td></tr><tr><td style="text-align:left">-70 dBm</td><td style="text-align:left">降到 20% 左右</td></tr><tr><td style="text-align:left">-75 dBm 以下</td><td style="text-align:left">几乎不可用</td></tr></tbody></table></div>
+<p>信号每衰减 10 dBm，速率大致减半。<strong>把手机拿到路由器 2 米内测一次，如果速度立刻正常，就是覆盖问题，不是宽带问题。</strong></p>
+<p><strong>3. 同时在线设备太多</strong></p>
+<p>第三章讲过，无线芯片的并发客户端数大约 15～30 台。超过后每台分到的时隙变少，表现出来就是&quot;信号满格但很慢&quot;。</p>
+<p><strong>4. 干扰</strong></p>
+<p>用 WiFi 分析仪看同频邻居网络数量。2.4GHz 上超过 10 个邻居网络，体验就会明显变差。</p>
+<p><strong>处理</strong>：把路由器信道手动设为 <strong>1、6、11</strong> 中最空闲的那个（这三个互不重叠）。别用&quot;自动&quot;——很多路由器的自动选择算法很差，反而会选到拥挤的信道。</p>
+<h2>一个两分钟的诊断流程</h2>
+<pre><code>① 网线直连路由器测速
+   ├─ 速度正常 → 问题在无线 → 查频段(5G?)、信号强度、设备数、干扰
+   └─ 速度不正常 → 问题在前三段
+        ├─ 对比套餐标称值
+        ├─ 查路由器网口是不是千兆
+        └─ 打运营商确认档位 + 看晚间是否拥塞</code></pre>
+<h2>最容易被忽略的一条</h2>
+<p><strong>测速要用网线直连，别用手机测。</strong></p>
+<p>用手机测速得到的结果，混进了信号强度、干扰、频段、并发数四个变量，你根本无法判断是宽带的问题还是无线的问题。<strong>一根网线是最便宜的诊断工具。</strong></p>
+<p>如果没有笔记本，退而求其次：把手机拿到<strong>距离路由器 1 米内</strong>测。这个距离下的信号接近满格，无线因素基本被排除，测出来的数字大致能代表宽带的真实能力。</p>
+  </div>
+</article>
+
+<section class="sec">
+  <h2 class="sec__t">同栏目文章</h2>
+  <ul class="cards">
+    <li class="card">
+      <a class="card__link" href="/posts/connected-but-no-internet.html">
+        <h3 class="card__t">信号满格却上不了网：按这个顺序排查</h3>
+        <p class="card__s">一个高频故障的排查流程。从最可能的开始，避免一上来就重启。</p>
+        <p class="card__m"><span class="tag">故障排查</span> 2026-09-12 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/how-many-devices.html">
+        <h3 class="card__t">一台路由器能带多少台设备：看三个数，不看天线数</h3>
+        <p class="card__s">为什么标称 1200M 的路由器带 30 台设备就卡了，以及该看哪些真实指标。</p>
+        <p class="card__m"><span class="tag">故障排查</span> 2026-09-05 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/wifi-drops-frequently.html">
+        <h3 class="card__t">WiFi 频繁掉线：按&quot;掉线范围&quot;定位原因</h3>
+        <p class="card__s">是所有设备一起掉，还是只有一台？这一个问题就能把原因缩小到两三类。</p>
+        <p class="card__m"><span class="tag">故障排查</span> 2026-08-22 · 约 3 分钟</p>
+      </a>
+    </li>
+</ul>
+</section>
+
+</main>
+
+<footer class="ft">
+  <div class="ft__in">
+    <div class="ft__col">
+      <p class="ft__name">门店网络手册</p>
+      <p class="ft__desc">本站内容基于实际门店网络运维经验整理，供同行参考。</p>
+      <p class="ft__contact">联系：<a href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">栏目</p>
+      <a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">站点</p>
+      <a href="/about.html">关于我们</a>
+      <a href="/privacy.html">隐私政策</a>
+      <a href="/disclaimer.html">免责声明</a>
+      <a href="/scan/">扫码连 WiFi 工具</a>
+    </div>
+  </div>
+  <div class="ft__bar">
+    <span>© 2026 门店网络手册</span>
+    <span><span class="foot__pending">ICP 备案办理中</span></span>
+  </div>
+</footer>
+</body>
+</html>

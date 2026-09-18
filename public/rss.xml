@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>门店网络手册</title>
+    <link>https://wifi.example.com/</link>
+    <description>写给实体门店经营者的网络实用手册：WiFi 覆盖、密码策略、设备选型、顾客连接体验与上网安全，全部来自实际运维经验。</description>
+    <language>zh-CN</language>
+    <item>
+      <title>信号满格却上不了网：按这个顺序排查</title>
+      <link>https://wifi.example.com/posts/connected-but-no-internet.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/connected-but-no-internet.html</guid>
+      <pubDate>Fri, 11 Sep 2026 16:00:00 GMT</pubDate>
+      <description>一个高频故障的排查流程。从最可能的开始，避免一上来就重启。</description>
+    </item>
+    <item>
+      <title>WiFi 二维码是怎么工作的：WIFI: 协议格式详解</title>
+      <link>https://wifi.example.com/posts/wifi-qr-format.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/wifi-qr-format.html</guid>
+      <pubDate>Mon, 07 Sep 2026 16:00:00 GMT</pubDate>
+      <description>手机相机凭什么扫一下就能连网？拆开看这个不成文但被广泛支持的标准。</description>
+    </item>
+    <item>
+      <title>一台路由器能带多少台设备：看三个数，不看天线数</title>
+      <link>https://wifi.example.com/posts/how-many-devices.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/how-many-devices.html</guid>
+      <pubDate>Fri, 04 Sep 2026 16:00:00 GMT</pubDate>
+      <description>为什么标称 1200M 的路由器带 30 台设备就卡了，以及该看哪些真实指标。</description>
+    </item>
+    <item>
+      <title>公共 WiFi 的真实风险，以及被夸大的部分</title>
+      <link>https://wifi.example.com/posts/public-wifi-real-risks.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/public-wifi-real-risks.html</guid>
+      <pubDate>Mon, 31 Aug 2026 16:00:00 GMT</pubDate>
+      <description>分清哪些威胁今天仍然成立、哪些已经被 HTTPS 消灭了，别在不重要的地方花力气。</description>
+    </item>
+    <item>
+      <title>顾客连你家 WiFi，你能看到什么</title>
+      <link>https://wifi.example.com/posts/what-shop-owner-can-see.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/what-shop-owner-can-see.html</guid>
+      <pubDate>Sat, 29 Aug 2026 16:00:00 GMT</pubDate>
+      <description>逐项说明在普通家用/商用路由器上，网络所有者能观察到的信息边界。</description>
+    </item>
+    <item>
+      <title>为什么微信里不能一键连 WiFi：浏览器能力的边界</title>
+      <link>https://wifi.example.com/posts/why-wechat-cannot-one-tap-connect.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/why-wechat-cannot-one-tap-connect.html</guid>
+      <pubDate>Mon, 24 Aug 2026 16:00:00 GMT</pubDate>
+      <description>从系统权限角度解释这个限制，以及在此前提下能做到的最好体验是什么。</description>
+    </item>
+    <item>
+      <title>WiFi 频繁掉线：按&quot;掉线范围&quot;定位原因</title>
+      <link>https://wifi.example.com/posts/wifi-drops-frequently.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/wifi-drops-frequently.html</guid>
+      <pubDate>Fri, 21 Aug 2026 16:00:00 GMT</pubDate>
+      <description>是所有设备一起掉，还是只有一台？这一个问题就能把原因缩小到两三类。</description>
+    </item>
+    <item>
+      <title>门店 WiFi 密码该不该公开：三种方案的实际代价</title>
+      <link>https://wifi.example.com/posts/shop-wifi-password-strategy.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/shop-wifi-password-strategy.html</guid>
+      <pubDate>Mon, 17 Aug 2026 16:00:00 GMT</pubDate>
+      <description>贴墙上、定期换、扫码获取——三种做法各自损失什么，凭这条来决定用哪个。</description>
+    </item>
+    <item>
+      <title>访客网络该不该开：一个和&quot;防蹭网&quot;无关的理由</title>
+      <link>https://wifi.example.com/posts/guest-network.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/guest-network.html</guid>
+      <pubDate>Sat, 15 Aug 2026 16:00:00 GMT</pubDate>
+      <description>开访客网络的主要收益不是省带宽，而是把你的收银机和顾客的手机隔开。</description>
+    </item>
+    <item>
+      <title>网速慢，先分清是哪一段慢</title>
+      <link>https://wifi.example.com/posts/slow-wifi-diagnosis.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/slow-wifi-diagnosis.html</guid>
+      <pubDate>Thu, 13 Aug 2026 16:00:00 GMT</pubDate>
+      <description>宽带、路由器、无线三个环节分别可能慢在哪，以及怎么用两步测出瓶颈。</description>
+    </item>
+    <item>
+      <title>路由器放哪里：位置比型号更影响信号</title>
+      <link>https://wifi.example.com/posts/router-placement.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/router-placement.html</guid>
+      <pubDate>Mon, 10 Aug 2026 16:00:00 GMT</pubDate>
+      <description>同一台路由器，换个位置覆盖范围能差一倍。这里是被忽略最多、改动成本最低的一项。</description>
+    </item>
+    <item>
+      <title>WiFi 密码不是安全措施</title>
+      <link>https://wifi.example.com/posts/wifi-password-is-not-security.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/wifi-password-is-not-security.html</guid>
+      <pubDate>Fri, 07 Aug 2026 16:00:00 GMT</pubDate>
+      <description>它解决的是&quot;谁能用我的带宽&quot;，不解决&quot;谁能碰我的设备&quot;。这两件事经常被混为一谈。</description>
+    </item>
+    <item>
+      <title>2.4G 和 5G 频段怎么选：不是二选一，是分工</title>
+      <link>https://wifi.example.com/posts/band-2g-or-5g.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/band-2g-or-5g.html</guid>
+      <pubDate>Mon, 03 Aug 2026 16:00:00 GMT</pubDate>
+      <description>解释两个频段的物理差异，以及「双频合一」为什么经常帮倒忙。</description>
+    </item>
+    <item>
+      <title>免费 WiFi 的成本该由谁承担</title>
+      <link>https://wifi.example.com/posts/free-wifi-cost-model.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/free-wifi-cost-model.html</guid>
+      <pubDate>Sat, 01 Aug 2026 16:00:00 GMT</pubDate>
+      <description>把带宽、设备、维护三笔账算清楚，再看广告、涨价、还是自己扛更合算。</description>
+    </item>
+    <item>
+      <title>光猫自带的 WiFi 够用吗：什么情况下必须加路由器</title>
+      <link>https://wifi.example.com/posts/optical-modem-wifi-enough.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/optical-modem-wifi-enough.html</guid>
+      <pubDate>Mon, 27 Jul 2026 16:00:00 GMT</pubDate>
+      <description>运营商装的那台设备同时是光猫和路由器。它的 WiFi 什么时候能用，什么时候是瓶颈。</description>
+    </item>
+    <item>
+      <title>扫码连 WiFi 和贴密码，哪种顾客体验更好</title>
+      <link>https://wifi.example.com/posts/qr-vs-password-poster.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/qr-vs-password-poster.html</guid>
+      <pubDate>Mon, 20 Jul 2026 16:00:00 GMT</pubDate>
+      <description>把两种方式的完整操作步数摊开数一遍，结论和直觉不太一样。</description>
+    </item>
+    <item>
+      <title>门店该办多少兆宽带：按设备数算，别按面积</title>
+      <link>https://wifi.example.com/posts/bandwidth-for-shop.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/bandwidth-for-shop.html</guid>
+      <pubDate>Mon, 13 Jul 2026 16:00:00 GMT</pubDate>
+      <description>一个可以直接套用的估算方法，以及为什么上行带宽比下行更容易先成为瓶颈。</description>
+    </item>
+    <item>
+      <title>小店路由器怎么选：只看五个参数</title>
+      <link>https://wifi.example.com/posts/router-selection-small-shop.html</link>
+      <guid isPermaLink="true">https://wifi.example.com/posts/router-selection-small-shop.html</guid>
+      <pubDate>Mon, 06 Jul 2026 16:00:00 GMT</pubDate>
+      <description>商品页上的大部分参数和门店场景无关。这份清单只留真正影响体验的几项。</description>
+    </item>
+  </channel>
+</rss>

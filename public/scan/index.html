@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#2f6bff">
+<meta name="robots" content="noindex,follow">
+<title>扫码连 WiFi · 免费上网</title>
+<meta name="description" content="扫码获取本店 WiFi 密码并连接。自动复制密码，按手机机型给出连接步骤，无需询问店员。">
+<link rel="stylesheet" href="/assets/style.css?v=1">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ==================================================================
+       屏 1 · 广告
+       ================================================================== -->
+  <section id="screen-ad" class="screen screen--ad is-active" aria-hidden="false">
+    <header class="adbar">
+      <span class="adbar__badge">广告</span>
+      <span class="adbar__hint" id="ad-hint">观看完成即可获取 WiFi 信息</span>
+      <span class="adbar__count" id="ad-count-chip">15s</span>
+      <button type="button" class="adbar__skip" id="ad-skip" hidden>跳过</button>
+    </header>
+
+    <div class="adstage" id="ad-stage">
+      <!-- 广告联盟代码会注入到这里 -->
+      <div class="adslot" id="ad-slot"></div>
+
+      <!-- 广告未填充时的兜底画面（不会让用户卡住） -->
+      <div class="adfallback" id="ad-fallback" hidden>
+        <div class="adfallback__ring"><span id="af-count">15</span></div>
+        <p class="adfallback__t">WiFi 服务由广告支持</p>
+        <p class="adfallback__s" id="af-sub">正在为你准备网络连接…</p>
+      </div>
+    </div>
+
+    <div class="adprog"><i id="ad-prog"></i></div>
+
+    <footer class="adfoot">
+      <span class="adfoot__lock" id="ad-lock">🔒 WiFi 信息将在广告结束后显示</span>
+    </footer>
+  </section>
+
+  <!-- ==================================================================
+       屏 2 · WiFi 信息
+       ================================================================== -->
+  <section id="screen-wifi" class="screen screen--wifi" aria-hidden="true" hidden>
+
+    <header class="hd">
+      <div class="hd__logo" id="brand-logo">📶</div>
+      <h1 class="hd__title" id="wifi-title">免费 WiFi</h1>
+      <p class="hd__sub" id="wifi-sub">扫码连接，无需询问密码</p>
+    </header>
+
+    <main class="wrap">
+      <div class="card">
+        <div class="card__row">
+          <span class="card__k">网络名称</span>
+          <span class="card__v" id="wifi-ssid">—</span>
+        </div>
+        <div class="card__row">
+          <span class="card__k">密码</span>
+          <span class="card__v card__v--pwd">
+            <span id="wifi-pwd">••••••••</span>
+            <button type="button" class="eye" id="btn-eye" aria-label="显示或隐藏密码">👁</button>
+          </span>
+        </div>
+        <div class="card__row" id="row-security">
+          <span class="card__k">加密方式</span>
+          <span class="card__v" id="wifi-sec">—</span>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn--primary btn--big" id="btn-connect">
+        <span class="btn__ico">⚡</span>
+        <span>一键连接 WiFi</span>
+      </button>
+
+      <p class="hint" id="connect-hint">
+        点击后会帮你复制密码，并给出对应机型的连接步骤
+      </p>
+
+      <!-- 横幅广告位 -->
+      <div class="banner" id="banner-slot" hidden></div>
+
+      <p class="notice" id="wifi-notice"></p>
+
+      <footer class="site-ft" id="site-ft">
+        <a id="site-ft-home" href="/">返回站点首页</a>
+        <span id="site-ft-icp"><!--ICP:START--><span class="site-ft__pending">ICP 备案办理中</span><!--ICP:END--></span>
+      </footer>
+    </main>
+  </section>
+</div>
+
+<!-- ====================================================================
+     连接方式弹层
+     ==================================================================== -->
+<div class="sheet-mask" id="sheet-mask" hidden>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="选择连接方式">
+    <button type="button" class="sheet__x" id="sheet-x" aria-label="关闭">✕</button>
+
+    <div class="sheet__body" id="sheet-scroll">
+      <h2 class="sheet__h">连接 WiFi</h2>
+      <p class="sheet__p" id="sheet-sub">密码已自动复制，任选一种方式连接</p>
+
+      <!-- 方式 1：复制密码（兼容所有机型，主路径） -->
+      <div class="way">
+        <div class="way__tag">方式一 · 最稳，所有手机都能用</div>
+        <div class="way__t">去系统设置里粘贴密码 <b class="mono" id="pwd-inline">—</b></div>
+        <ol class="steps" id="steps"></ol>
+        <div class="way__acts">
+          <a class="btn btn--primary" id="btn-open-settings" hidden>打开 WiFi 设置</a>
+          <button type="button" class="btn btn--ghost" id="btn-copy">再复制一次</button>
+        </div>
+      </div>
+
+      <div class="or"><span>或</span></div>
+
+      <!-- 方式 2：系统级二维码（第二台手机 / 截图识别） -->
+      <div class="way">
+        <div class="way__tag way__tag--b">方式二 · 旁边有第二台手机时最快</div>
+        <div class="way__t">让第二台手机扫下面这个码，系统会直接弹「加入网络」</div>
+        <div class="qrbox" id="qrbox">
+          <div class="qr" id="wifi-qr"></div>
+        </div>
+        <p class="way__s" id="qr-tip"></p>
+        <div class="way__acts">
+          <button type="button" class="btn btn--ghost" id="btn-qr-save">保存二维码图片</button>
+        </div>
+      </div>
+
+      <div class="way way--feedback">
+        <div class="way__t">连上了吗？</div>
+        <div class="way__acts">
+          <button type="button" class="btn btn--ok" id="btn-ok">已连上，谢谢</button>
+          <button type="button" class="btn btn--ghost" id="btn-retry">没连上，再试</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="/assets/vendor/qrcode.js"></script>
+<script src="/assets/site-info.js"></script>
+<script src="/assets/config.js?v=1"></script>
+<script src="/assets/app.js?v=1"></script>
+</body>
+</html>

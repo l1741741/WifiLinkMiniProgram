@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>小店路由器怎么选：只看五个参数 · 门店网络手册</title>
+<meta name="description" content="商品页上的大部分参数和门店场景无关。这份清单只留真正影响体验的几项。">
+<link rel="canonical" href="https://wifi.example.com/posts/router-selection-small-shop.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="门店网络手册">
+<meta property="og:title" content="小店路由器怎么选：只看五个参数 · 门店网络手册">
+<meta property="og:description" content="商品页上的大部分参数和门店场景无关。这份清单只留真正影响体验的几项。">
+<meta property="og:url" content="https://wifi.example.com/posts/router-selection-small-shop.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="hd">
+  <div class="hd__in">
+    <a class="hd__brand" href="/">
+      <span class="hd__mark" aria-hidden="true">◍</span>
+      <span class="hd__name">门店网络手册</span>
+    </a>
+    <nav class="hd__nav" aria-label="主导航"><a href="/">首页</a><a href="/category/shop-wifi.html" class="is-active" aria-current="page">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a><a href="/about.html">关于</a></nav>
+  </div>
+</header>
+
+<main id="main" class="main">
+
+<nav class="crumb" aria-label="面包屑">
+  <a href="/">首页</a> <span>›</span>
+  <a href="/category/shop-wifi.html">门店 WiFi</a> <span>›</span>
+  <span class="crumb__now">小店路由器怎么选：只看五个参数</span>
+</nav>
+
+<article class="post">
+  <header class="post__hd">
+    <h1 class="post__t">小店路由器怎么选：只看五个参数</h1>
+    <p class="post__m">
+      <a class="tag" href="/category/shop-wifi.html">门店 WiFi</a>
+      <time datetime="2026-07-07">2026-07-07</time>
+      <span>约 3 分钟</span>
+    </p>
+  </header>
+  <div class="prose">
+<p>路由器商品页会列出十几个参数，其中大半对门店场景没有影响。下面这五项是真正要看的，其余可以忽略。</p>
+<h2>一、网口速率：必须是千兆</h2>
+<p><strong>这是第一条，也是最容易买错的。</strong></p>
+<p>参数里看&quot;网口&quot;或&quot;端口速率&quot;，写 <code>10/100Mbps</code> 的是<strong>百兆口</strong>，写 <code>10/100/1000Mbps</code> 的是千兆口。</p>
+<p>百兆口的路由器，<strong>实测最多跑到 90 多 Mbps</strong>，不管它的 WiFi 标称多少、不管你办的是 100M 还是 500M 宽带。这是个硬限制。</p>
+<p>很多便宜路由器用&quot;AC1200&quot;这样看起来不低的无线规格，配上百兆网口，专门用来迷惑不懂的人。<strong>先看网口，再看别的。</strong></p>
+<h2>二、无线规格：AX 比 AC 好，但别为此多花太多钱</h2>
+<ul><li><code>AC</code> = Wi-Fi 5（2014 年标准）</li><li><code>AX</code> = Wi-Fi 6（2019 年标准）</li></ul>
+<p>Wi-Fi 6 的主要改进是<strong>高密度场景下的效率</strong>——也就是设备多的时候更稳。这个改进对门店场景是有用的，因为门店的典型特点就是&quot;一堆设备挤在一起&quot;。</p>
+<p>但差价如果超过一倍，性价比就不高了。<strong>一台 300 元的 AX 路由器，比一台 600 元的 AC 路由器更适合门店。</strong></p>
+<p>至于 <code>AX3000</code> <code>AX6000</code> 这些数字，是理论速率总和，<strong>和带机量没有直接关系</strong>（详见<a href="/posts/how-many-devices.html">《一台路由器能带多少设备》</a>）。</p>
+<h2>三、带机量：看内存，不看天线</h2>
+<p>商品页一般不会直接写带机量。可以从内存容量推断：</p>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">内存</th><th style="text-align:left">大致带机量</th></tr></thead><tbody><tr><td style="text-align:left">128MB</td><td style="text-align:left">15～20 台</td></tr><tr><td style="text-align:left">256MB</td><td style="text-align:left">25～35 台</td></tr><tr><td style="text-align:left">512MB 及以上</td><td style="text-align:left">40～60 台</td></tr></tbody></table></div>
+<p><strong>天线数量是个营销参数。</strong> 4 根和 6 根天线在同样功率下的实际覆盖差异很小，因为国内对发射功率有法规上限，天线多并不能突破这个上限。看到&quot;6 天线穿墙王&quot;这类描述，可以直接跳过。</p>
+<h2>四、是否支持 AP 模式</h2>
+<p>如果你以后可能要加第二个点位扩展覆盖，路由器需要支持 <strong>AP 模式</strong>（也叫接入点模式、桥接模式）。</p>
+<p>在 AP 模式下，设备只做无线覆盖，不做路由和 DHCP，由主路由统一管理。这样多个点位在<strong>同一个网段</strong>里，设备互通没有问题。</p>
+<p>如果不支持 AP 模式，两个路由器串接会产生两层网段，后厨的点单屏和收银机可能互相找不到——这类问题很难排查。</p>
+<p><strong>买之前确认参数里有&quot;AP 模式&quot;或&quot;接入点模式&quot;这一项。</strong> 几百元以上的型号基本都有，百元机经常没有。</p>
+<h2>五、固件是否还在更新</h2>
+<p>这一项最容易忽略，但影响长期使用。</p>
+<p>路由器也是软件产品。厂商停止更新固件之后：</p>
+<ul><li>安全漏洞不会被修补</li><li>新的设备兼容性问题不会被解决</li><li>稳定性问题会一直存在</li></ul>
+<p><strong>判断方法</strong>：在厂商官网找这个型号的固件下载页，看最近一次更新是什么时候。</p>
+<ul><li>一年内有更新：可以买</li><li>两三年没更新：清库存的老型号，不推荐</li><li>官网找不到固件页：直接放弃</li></ul>
+<h2>可以直接忽略的参数</h2>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">参数</th><th style="text-align:left">为什么忽略</th></tr></thead><tbody><tr><td style="text-align:left">天线数量</td><td style="text-align:left">受发射功率法规限制，多天线不代表覆盖好</td></tr><tr><td style="text-align:left">&quot;穿墙王&quot;&quot;别墅级&quot;</td><td style="text-align:left">营销词，没有任何技术含义</td></tr><tr><td style="text-align:left">理论速率总和（AX6000）</td><td style="text-align:left">和带机量、实际速度关系不大</td></tr><tr><td style="text-align:left">USB 接口</td><td style="text-align:left">门店几乎用不到</td></tr><tr><td style="text-align:left">游戏加速、支持 Mesh 一键组网</td><td style="text-align:left">用不上，也不要为这些功能加钱</td></tr><tr><td style="text-align:left">品牌旗舰系列的顶配型号</td><td style="text-align:left">门店不需要，多花的钱可以用在加第二个 AP 上</td></tr></tbody></table></div>
+<h2>一个反直觉的结论</h2>
+<p><strong>两台 400 元的中端路由器（有线连接），效果通常好过一台 1500 元的旗舰机。</strong></p>
+<p>原因在<a href="/posts/how-many-devices.html">《一台路由器能带多少设备》</a>里说过：无线芯片的并发客户端数才是门店场景的瓶颈，而多一台设备就是多一颗芯片。旗舰机的单颗芯片再强，也扛不住 60 台设备；两台中端机分担，每台 30 台，反而轻松。</p>
+<p>前提是<strong>两台之间必须有线连接</strong>。无线桥接会让两台设备共享同一段频谱，效果比单台还差。</p>
+<p>所以如果你的预算是 1500 元，正确花法是：</p>
+<pre><code>一台 400～600 元的千兆 AX 路由器（主）
++ 一台 300～400 元的支持 AP 模式的路由器（副）
++ 请人拉一根网线（200～400 元）
+≈ 1200～1400 元</code></pre>
+<p>比买一台旗舰机效果好得多，而且<strong>布线的钱是一次性投入</strong>，以后换任何设备都不用重拉。</p>
+<h2>购买前的检查清单</h2>
+<pre><code>□ 网口是千兆（10/100/1000Mbps）
+□ 是 Wi-Fi 6（AX）或至少 AC
+□ 内存 256MB 以上
+□ 支持 AP 模式
+□ 官网近一年内有固件更新
+□ 如果店面有隔断，预算里留出第二个 AP 和布线的钱</code></pre>
+  </div>
+</article>
+
+<section class="sec">
+  <h2 class="sec__t">同栏目文章</h2>
+  <ul class="cards">
+    <li class="card">
+      <a class="card__link" href="/posts/shop-wifi-password-strategy.html">
+        <h3 class="card__t">门店 WiFi 密码该不该公开：三种方案的实际代价</h3>
+        <p class="card__s">贴墙上、定期换、扫码获取——三种做法各自损失什么，凭这条来决定用哪个。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-08-18 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/router-placement.html">
+        <h3 class="card__t">路由器放哪里：位置比型号更影响信号</h3>
+        <p class="card__s">同一台路由器，换个位置覆盖范围能差一倍。这里是被忽略最多、改动成本最低的一项。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-08-11 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/band-2g-or-5g.html">
+        <h3 class="card__t">2.4G 和 5G 频段怎么选：不是二选一，是分工</h3>
+        <p class="card__s">解释两个频段的物理差异，以及「双频合一」为什么经常帮倒忙。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-08-04 · 约 2 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/optical-modem-wifi-enough.html">
+        <h3 class="card__t">光猫自带的 WiFi 够用吗：什么情况下必须加路由器</h3>
+        <p class="card__s">运营商装的那台设备同时是光猫和路由器。它的 WiFi 什么时候能用，什么时候是瓶颈。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-07-28 · 约 2 分钟</p>
+      </a>
+    </li>
+</ul>
+</section>
+
+</main>
+
+<footer class="ft">
+  <div class="ft__in">
+    <div class="ft__col">
+      <p class="ft__name">门店网络手册</p>
+      <p class="ft__desc">本站内容基于实际门店网络运维经验整理，供同行参考。</p>
+      <p class="ft__contact">联系：<a href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">栏目</p>
+      <a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">站点</p>
+      <a href="/about.html">关于我们</a>
+      <a href="/privacy.html">隐私政策</a>
+      <a href="/disclaimer.html">免责声明</a>
+      <a href="/scan/">扫码连 WiFi 工具</a>
+    </div>
+  </div>
+  <div class="ft__bar">
+    <span>© 2026 门店网络手册</span>
+    <span><span class="foot__pending">ICP 备案办理中</span></span>
+  </div>
+</footer>
+</body>
+</html>

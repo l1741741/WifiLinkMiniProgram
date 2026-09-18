@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>信号满格却上不了网：按这个顺序排查 · 门店网络手册</title>
+<meta name="description" content="一个高频故障的排查流程。从最可能的开始，避免一上来就重启。">
+<link rel="canonical" href="https://wifi.example.com/posts/connected-but-no-internet.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="门店网络手册">
+<meta property="og:title" content="信号满格却上不了网：按这个顺序排查 · 门店网络手册">
+<meta property="og:description" content="一个高频故障的排查流程。从最可能的开始，避免一上来就重启。">
+<meta property="og:url" content="https://wifi.example.com/posts/connected-but-no-internet.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="hd">
+  <div class="hd__in">
+    <a class="hd__brand" href="/">
+      <span class="hd__mark" aria-hidden="true">◍</span>
+      <span class="hd__name">门店网络手册</span>
+    </a>
+    <nav class="hd__nav" aria-label="主导航"><a href="/">首页</a><a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html" class="is-active" aria-current="page">故障排查</a><a href="/about.html">关于</a></nav>
+  </div>
+</header>
+
+<main id="main" class="main">
+
+<nav class="crumb" aria-label="面包屑">
+  <a href="/">首页</a> <span>›</span>
+  <a href="/category/faq.html">故障排查</a> <span>›</span>
+  <span class="crumb__now">信号满格却上不了网：按这个顺序排查</span>
+</nav>
+
+<article class="post">
+  <header class="post__hd">
+    <h1 class="post__t">信号满格却上不了网：按这个顺序排查</h1>
+    <p class="post__m">
+      <a class="tag" href="/category/faq.html">故障排查</a>
+      <time datetime="2026-09-12">2026-09-12</time>
+      <span>约 3 分钟</span>
+    </p>
+  </header>
+  <div class="prose">
+<p>&quot;信号满格但打不开网页&quot;是我们上门遇到最多的故障。它的成因比&quot;没信号&quot;要复杂——信号满格说明手机和路由器之间的连接是好的，<strong>问题出在路由器往外走的那一段</strong>。</p>
+<p>按下面的顺序排查，每一步都能排除一类原因，不用跳着试。</p>
+<h2>第 0 步：先分清楚是哪一段断了</h2>
+<p>打开手机浏览器访问一个你从没访问过的网站（避免缓存），同时看路由器上的指示灯：</p>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">现象</th><th style="text-align:left">指向</th></tr></thead><tbody><tr><td style="text-align:left">所有网站都打不开，路由器&quot;Internet/光信号&quot;灯<strong>红或灭</strong></td><td style="text-align:left">上行链路问题（第 1、2 步）</td></tr><tr><td style="text-align:left">打不开网页，但微信还能收到消息</td><td style="text-align:left">DNS 问题（第 3 步）</td></tr><tr><td style="text-align:left">大部分网站能开，个别打不开</td><td style="text-align:left">特定网站或 IP 问题，不是你的网络故障</td></tr><tr><td style="text-align:left">只有一台设备不行，其他正常</td><td style="text-align:left">那台设备的问题，与网络无关（第 5 步）</td></tr></tbody></table></div>
+<h2>第 1 步：宽带欠费</h2>
+<p><strong>这一步被跳过的次数多到离谱。</strong> 很多老板第一反应是重启路由器，折腾半小时，最后发现是宽带到期忘了续费。</p>
+<p>查法：登录宽带运营商的 App（中国电信、中国移动、中国联通都有），看账户状态和余额。或者直接打客服电话。</p>
+<p><strong>先查这个，30 秒的事。</strong></p>
+<h2>第 2 步：看光猫的指示灯</h2>
+<p>光猫上通常有一个标着&quot;光信号&quot;或&quot;LOS&quot;的灯：</p>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">灯的状态</th><th style="text-align:left">含义</th><th style="text-align:left">怎么办</th></tr></thead><tbody><tr><td style="text-align:left">常亮绿灯</td><td style="text-align:left">光纤正常</td><td style="text-align:left">继续第 3 步</td></tr><tr><td style="text-align:left"><strong>红灯闪烁或常亮</strong></td><td style="text-align:left">光信号丢失</td><td style="text-align:left">光纤断了或接口松了，打运营商报修</td></tr><tr><td style="text-align:left">完全不亮</td><td style="text-align:left">设备没通电</td><td style="text-align:left">检查电源适配器</td></tr></tbody></table></div>
+<p>红灯的情况自己修不了——光纤断了要么是外力挖断，要么是接头脏了，都需要运营商上门。<strong>直接报修，别自己拆。</strong></p>
+<p>另外看一下光猫的网线有没有松。光纤接口和网线接口都插紧一次，有时候就是接触不良。</p>
+<h2>第 3 步：DNS 问题</h2>
+<p><strong>判断特征：微信能发消息（它用 IP 直连），但浏览器打不开任何网页。</strong> 这是 DNS 解析失败的典型表现。</p>
+<p>DNS 的工作是把 <code>www.example.com</code> 翻译成 IP 地址。如果路由器下发的 DNS 服务器挂了，所有需要域名解析的操作都会卡住。</p>
+<p><strong>修法</strong>：进路由器后台，把 DNS 从&quot;自动获取&quot;改成手动指定：</p>
+<pre><code>首选：223.5.5.5    （阿里公共 DNS）
+备用：119.29.29.29 （腾讯公共 DNS）</code></pre>
+<p>这两个是国内可用的稳定公共 DNS。改完保存，一般立刻恢复。</p>
+<h2>第 4 步：路由器本身的问题</h2>
+<p>前面的都正常，就重启路由器。但<strong>重启要有正确的方式</strong>：</p>
+<p><strong>错误的做法</strong>：拔电源，等 3 秒，插回去。</p>
+<p><strong>正确的做法</strong>：拔掉电源，<strong>等 30 秒以上</strong>，再插回去。</p>
+<p>为什么是 30 秒：路由器内部的电容需要时间放电，里面的内存和状态表要彻底清空才叫真重启。等 3 秒就插回去，很多状态其实还留着，重启不彻底。</p>
+<p>这解释了那个常见现象：<strong>&quot;我重启过了没用&quot;</strong>，其实是没重启干净。</p>
+<p>如果是经常需要重启才正常，说明路由器的内存或处理能力已经不够（设备太多或固件有问题）。这时候换设备比反复重启更实际。</p>
+<h2>第 5 步：只有一台设备不行</h2>
+<p>如果其他设备都正常，问题在那台设备上，检查：</p>
+<ol><li><strong>飞行模式开关一次</strong>，强制重新注册网络</li><li><strong>忘记这个 WiFi 再重新连</strong>（清掉可能已损坏的配置）</li><li><strong>IP 地址冲突</strong>：进 WiFi 详情看 IP，如果是 <code>169.254.x.x</code> 开头，说明<strong>没拿到 DHCP 分配的地址</strong>——通常是路由器地址池满了，或者这台设备被分配了静态 IP 且和别人的冲突</li><li><strong>时间和日期不对</strong>：系统时间错乱会导致 HTTPS 证书校验失败，表现就是&quot;所有网页都打不开&quot;。这一条很隐蔽，但确实常见</li></ol>
+<p>第 4 条特别值得说：手机时间如果偏差超过一天，几乎所有的 HTTPS 连接都会失败，浏览器会给出证书错误。用户往往会忽略这个提示以为是网络问题。</p>
+<h2>第 6 步：地址池耗尽</h2>
+<p>如果店里的设备很多（超过 30 台），可能出现<strong>新设备连不上、老设备正常</strong>的情况。</p>
+<p>原因是路由器的 DHCP 地址池通常默认只有 50 到 100 个地址，而且在设备离开后，地址要等租期到期才会回收（租期常设 24 小时）。一天下来大量顾客来来去去，地址可能被占满。</p>
+<p><strong>修法</strong>：进路由器后台，把 DHCP 租期从 24 小时缩短到 <strong>2 小时</strong>，或者扩大地址池范围（比如从 <code>192.168.1.100-199</code> 改成 <code>192.168.1.100-250</code>）。</p>
+<p>对门店场景，<strong>把租期设短是正确的</strong>——顾客不会待 24 小时，没必要占着地址不放。</p>
+<h2>排查顺序速查</h2>
+<pre><code>1. 宽带欠费了吗          ← 先查这个，30 秒
+2. 光猫 LOS 灯红了吗     ← 红了就报修
+3. 微信能发但网页打不开  ← 改 DNS
+4. 重启（拔电等 30 秒）
+5. 只有一台设备不行      ← 是那台设备的问题
+6. 设备多、新设备连不上  ← 缩短 DHCP 租期</code></pre>
+<p>按这个顺序走，绝大多数情况在第 1、3、4 步就解决了。</p>
+  </div>
+</article>
+
+<section class="sec">
+  <h2 class="sec__t">同栏目文章</h2>
+  <ul class="cards">
+    <li class="card">
+      <a class="card__link" href="/posts/how-many-devices.html">
+        <h3 class="card__t">一台路由器能带多少台设备：看三个数，不看天线数</h3>
+        <p class="card__s">为什么标称 1200M 的路由器带 30 台设备就卡了，以及该看哪些真实指标。</p>
+        <p class="card__m"><span class="tag">故障排查</span> 2026-09-05 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/wifi-drops-frequently.html">
+        <h3 class="card__t">WiFi 频繁掉线：按&quot;掉线范围&quot;定位原因</h3>
+        <p class="card__s">是所有设备一起掉，还是只有一台？这一个问题就能把原因缩小到两三类。</p>
+        <p class="card__m"><span class="tag">故障排查</span> 2026-08-22 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/slow-wifi-diagnosis.html">
+        <h3 class="card__t">网速慢，先分清是哪一段慢</h3>
+        <p class="card__s">宽带、路由器、无线三个环节分别可能慢在哪，以及怎么用两步测出瓶颈。</p>
+        <p class="card__m"><span class="tag">故障排查</span> 2026-08-14 · 约 3 分钟</p>
+      </a>
+    </li>
+</ul>
+</section>
+
+</main>
+
+<footer class="ft">
+  <div class="ft__in">
+    <div class="ft__col">
+      <p class="ft__name">门店网络手册</p>
+      <p class="ft__desc">本站内容基于实际门店网络运维经验整理，供同行参考。</p>
+      <p class="ft__contact">联系：<a href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">栏目</p>
+      <a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">站点</p>
+      <a href="/about.html">关于我们</a>
+      <a href="/privacy.html">隐私政策</a>
+      <a href="/disclaimer.html">免责声明</a>
+      <a href="/scan/">扫码连 WiFi 工具</a>
+    </div>
+  </div>
+  <div class="ft__bar">
+    <span>© 2026 门店网络手册</span>
+    <span><span class="foot__pending">ICP 备案办理中</span></span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WiFi 二维码是怎么工作的：WIFI: 协议格式详解 · 门店网络手册</title>
+<meta name="description" content="手机相机凭什么扫一下就能连网？拆开看这个不成文但被广泛支持的标准。">
+<link rel="canonical" href="https://wifi.example.com/posts/wifi-qr-format.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="门店网络手册">
+<meta property="og:title" content="WiFi 二维码是怎么工作的：WIFI: 协议格式详解 · 门店网络手册">
+<meta property="og:description" content="手机相机凭什么扫一下就能连网？拆开看这个不成文但被广泛支持的标准。">
+<meta property="og:url" content="https://wifi.example.com/posts/wifi-qr-format.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="hd">
+  <div class="hd__in">
+    <a class="hd__brand" href="/">
+      <span class="hd__mark" aria-hidden="true">◍</span>
+      <span class="hd__name">门店网络手册</span>
+    </a>
+    <nav class="hd__nav" aria-label="主导航"><a href="/">首页</a><a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html" class="is-active" aria-current="page">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a><a href="/about.html">关于</a></nav>
+  </div>
+</header>
+
+<main id="main" class="main">
+
+<nav class="crumb" aria-label="面包屑">
+  <a href="/">首页</a> <span>›</span>
+  <a href="/category/connect.html">顾客连接</a> <span>›</span>
+  <span class="crumb__now">WiFi 二维码是怎么工作的：WIFI: 协议格式详解</span>
+</nav>
+
+<article class="post">
+  <header class="post__hd">
+    <h1 class="post__t">WiFi 二维码是怎么工作的：WIFI: 协议格式详解</h1>
+    <p class="post__m">
+      <a class="tag" href="/category/connect.html">顾客连接</a>
+      <time datetime="2026-09-08">2026-09-08</time>
+      <span>约 2 分钟</span>
+    </p>
+  </header>
+  <div class="prose">
+<p>有一件事很多人没意识到：<strong>WiFi 二维码里没有图像识别，也没有云端查询，它就是一段纯文本。</strong> 手机相机扫到之后，读到的是一串固定格式的字符，系统解析这串字符后直接发起连接。</p>
+<p>这段文本长这样：</p>
+<pre><code>WIFI:T:WPA;S:ChinaNet-3v9I-5G;P:88888888;;</code></pre>
+<p>逐段拆解：</p>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">片段</th><th style="text-align:left">含义</th></tr></thead><tbody><tr><td style="text-align:left"><code>WIFI:</code></td><td style="text-align:left">开头标记，告诉系统&quot;这是一条 WiFi 配置&quot;</td></tr><tr><td style="text-align:left"><code>T:WPA;</code></td><td style="text-align:left">加密类型：WPA / WEP / nopass</td></tr><tr><td style="text-align:left"><code>S:</code></td><td style="text-align:left">SSID，即网络名称，到下一个未转义的 <code>;</code> 为止</td></tr><tr><td style="text-align:left"><code>P:</code></td><td style="text-align:left">密码</td></tr><tr><td style="text-align:left"><code>H:true;</code></td><td style="text-align:left">可选，表示这是隐藏网络</td></tr><tr><td style="text-align:left">结尾的 <code>;;</code></td><td style="text-align:left">一个结束字段，一个结束整条记录</td></tr></tbody></table></div>
+<p>字段顺序不固定，手机不依赖顺序，而是认 <code>S:</code> <code>P:</code> 这些字母前缀。</p>
+<h2>为什么有些密码会让二维码失效</h2>
+<p>关键在<strong>分号</strong>。上面每个字段都用 <code>;</code> 分隔，如果密码里本身含有分号，系统就会把它当成字段结束符，解析出错。</p>
+<p>标准的解决办法是<strong>反斜杠转义</strong>。需要转义的字符有五个：</p>
+<pre><code>\  ;  ,  :  &quot;</code></pre>
+<p>举例：密码是 <code>ab;cd</code>，二维码里必须写成 <code>P:ab\;cd;</code>。</p>
+<p>店铺 WiFi 密码里出现这些字符的概率不高，但如果你设过类似 <code>wifi:2026</code> 这种带冒号的密码，就会踩到这个坑。<strong>建议门店密码只用数字和字母</strong>，省掉一整类麻烦。</p>
+<h2>哪些系统支持</h2>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">系统</th><th style="text-align:left">支持情况</th></tr></thead><tbody><tr><td style="text-align:left">iOS 11 及以上</td><td style="text-align:left">自带相机直接识别，弹出&quot;加入网络&quot;</td></tr><tr><td style="text-align:left">Android 10 及以上</td><td style="text-align:left">自带相机或 Google Lens 识别，部分机型需装扫码工具</td></tr><tr><td style="text-align:left">微信</td><td style="text-align:left">扫一扫支持识别，长按图片识别也支持</td></tr><tr><td style="text-align:left">macOS / Windows</td><td style="text-align:left">相机不支持，需要专门的扫码软件</td></tr></tbody></table></div>
+<p><strong>iOS 11 之前和 Android 10 之前的老设备不支持</strong>，扫出来只会看到一串看不懂的文本。这是给顾客用时要考虑的现实问题——如果常有老年顾客，贴个文字密码仍然必要。</p>
+<h2>对门店的实际意义</h2>
+<p>这个格式带来一个很实用的结论：<strong>你可以同时提供两条路，成本几乎为零。</strong></p>
+<p>在墙上贴一张纸，上面既印二维码，也印上手写的文字密码。扫码的人快，扫不动的人照着手输。这是容错率最高的做法。</p>
+<p>另外一个提醒：<strong>不要把 WiFi 二维码印成彩色的、带艺术设计的、中间压大 LOGO 的。</strong> 二维码的纠错机制能容忍一定程度的遮挡和污损，但中心区域压上大块图形会明显降低低端手机的识别率。黑白方块、留足白边，是最可靠的样子。</p>
+<p>在手机上展示二维码让别人扫的时候，还要注意屏幕反光和亮度。<strong>屏幕调到最亮，手机不要贴太近</strong>（太近相机会对不上焦），距离 15～25 厘米最稳。</p>
+<h2>为什么它不能替代&quot;网页里点一下就连接&quot;</h2>
+<p>因为它是<strong>给相机用的，不是给网页用的</strong>。</p>
+<p>浏览器没有任何办法调用系统 WiFi 接口——这是操作系统的安全边界，不是浏览器功能没做完。所以一个网页能做到的最接近的方案，就是把这个二维码画在页面上，让用户截图后用相机或相册识别。这中间必然多一步。</p>
+<p>关于这个限制的完整说明，写在<a href="/posts/why-wechat-cannot-one-tap-connect.html">《为什么微信里不能一键连 WiFi》</a>。</p>
+  </div>
+</article>
+
+<section class="sec">
+  <h2 class="sec__t">同栏目文章</h2>
+  <ul class="cards">
+    <li class="card">
+      <a class="card__link" href="/posts/why-wechat-cannot-one-tap-connect.html">
+        <h3 class="card__t">为什么微信里不能一键连 WiFi：浏览器能力的边界</h3>
+        <p class="card__s">从系统权限角度解释这个限制，以及在此前提下能做到的最好体验是什么。</p>
+        <p class="card__m"><span class="tag">顾客连接</span> 2026-08-25 · 约 2 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/guest-network.html">
+        <h3 class="card__t">访客网络该不该开：一个和&quot;防蹭网&quot;无关的理由</h3>
+        <p class="card__s">开访客网络的主要收益不是省带宽，而是把你的收银机和顾客的手机隔开。</p>
+        <p class="card__m"><span class="tag">顾客连接</span> 2026-08-16 · 约 2 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/free-wifi-cost-model.html">
+        <h3 class="card__t">免费 WiFi 的成本该由谁承担</h3>
+        <p class="card__s">把带宽、设备、维护三笔账算清楚，再看广告、涨价、还是自己扛更合算。</p>
+        <p class="card__m"><span class="tag">顾客连接</span> 2026-08-02 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/qr-vs-password-poster.html">
+        <h3 class="card__t">扫码连 WiFi 和贴密码，哪种顾客体验更好</h3>
+        <p class="card__s">把两种方式的完整操作步数摊开数一遍，结论和直觉不太一样。</p>
+        <p class="card__m"><span class="tag">顾客连接</span> 2026-07-21 · 约 2 分钟</p>
+      </a>
+    </li>
+</ul>
+</section>
+
+</main>
+
+<footer class="ft">
+  <div class="ft__in">
+    <div class="ft__col">
+      <p class="ft__name">门店网络手册</p>
+      <p class="ft__desc">本站内容基于实际门店网络运维经验整理，供同行参考。</p>
+      <p class="ft__contact">联系：<a href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">栏目</p>
+      <a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">站点</p>
+      <a href="/about.html">关于我们</a>
+      <a href="/privacy.html">隐私政策</a>
+      <a href="/disclaimer.html">免责声明</a>
+      <a href="/scan/">扫码连 WiFi 工具</a>
+    </div>
+  </div>
+  <div class="ft__bar">
+    <span>© 2026 门店网络手册</span>
+    <span><span class="foot__pending">ICP 备案办理中</span></span>
+  </div>
+</footer>
+</body>
+</html>

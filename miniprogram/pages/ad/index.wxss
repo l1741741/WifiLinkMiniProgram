@@ -1,0 +1,97 @@
+page { background: #12161f; }
+
+.ad {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #12161f;
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------- 顶栏 */
+.ad__bar {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 28rpx;
+  padding-top: calc(24rpx + env(safe-area-inset-top));
+}
+.ad__badge {
+  flex: none;
+  font-size: 22rpx;
+  padding: 8rpx 14rpx;
+  border-radius: 10rpx;
+  background: #2b3444;
+  color: #a9b6cc;
+  letter-spacing: .06em;
+}
+.ad__hint {
+  flex: 1;
+  min-width: 0;
+  margin: 0 20rpx;
+  font-size: 26rpx;
+  color: #8d9bb5;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ad__skip {
+  flex: none;
+  font-size: 26rpx;
+  color: #fff;
+  border: 1rpx solid #3d4b68;
+  border-radius: 999rpx;
+  padding: 10rpx 26rpx;
+}
+.ad__skip:active { background: #232c3d; }
+
+/* ---------------------------------------------------------------- 主体 */
+.ad__stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 28rpx;
+}
+
+.ad__waiting,
+.ad__placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 80rpx 0;
+  border-radius: 24rpx;
+  border: 2rpx dashed #2c3648;
+  background: #151a25;
+}
+
+.ad__ring {
+  font-size: 92rpx;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  margin-bottom: 28rpx;
+  font-variant-numeric: tabular-nums;
+}
+.ad__t { font-size: 30rpx; color: #cbd6ea; }
+.ad__s { font-size: 25rpx; color: #7e8ca6; margin-top: 12rpx; }
+
+/* -------------------------------------------------------------- 进度条 */
+.ad__prog {
+  height: 6rpx;
+  background: #232c3d;
+}
+.ad__prog-in {
+  height: 100%;
+  background: linear-gradient(90deg, #2f6bff, #6a9bff);
+  transition: width .25s linear;
+}
+
+.ad__foot {
+  padding: 30rpx 32rpx;
+  padding-bottom: calc(30rpx + env(safe-area-inset-bottom));
+  text-align: center;
+  font-size: 25rpx;
+  color: #7e8ca6;
+}

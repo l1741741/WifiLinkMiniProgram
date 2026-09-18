@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>门店该办多少兆宽带：按设备数算，别按面积 · 门店网络手册</title>
+<meta name="description" content="一个可以直接套用的估算方法，以及为什么上行带宽比下行更容易先成为瓶颈。">
+<link rel="canonical" href="https://wifi.example.com/posts/bandwidth-for-shop.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="门店网络手册">
+<meta property="og:title" content="门店该办多少兆宽带：按设备数算，别按面积 · 门店网络手册">
+<meta property="og:description" content="一个可以直接套用的估算方法，以及为什么上行带宽比下行更容易先成为瓶颈。">
+<meta property="og:url" content="https://wifi.example.com/posts/bandwidth-for-shop.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="hd">
+  <div class="hd__in">
+    <a class="hd__brand" href="/">
+      <span class="hd__mark" aria-hidden="true">◍</span>
+      <span class="hd__name">门店网络手册</span>
+    </a>
+    <nav class="hd__nav" aria-label="主导航"><a href="/">首页</a><a href="/category/shop-wifi.html" class="is-active" aria-current="page">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a><a href="/about.html">关于</a></nav>
+  </div>
+</header>
+
+<main id="main" class="main">
+
+<nav class="crumb" aria-label="面包屑">
+  <a href="/">首页</a> <span>›</span>
+  <a href="/category/shop-wifi.html">门店 WiFi</a> <span>›</span>
+  <span class="crumb__now">门店该办多少兆宽带：按设备数算，别按面积</span>
+</nav>
+
+<article class="post">
+  <header class="post__hd">
+    <h1 class="post__t">门店该办多少兆宽带：按设备数算，别按面积</h1>
+    <p class="post__m">
+      <a class="tag" href="/category/shop-wifi.html">门店 WiFi</a>
+      <time datetime="2026-07-14">2026-07-14</time>
+      <span>约 3 分钟</span>
+    </p>
+  </header>
+  <div class="prose">
+<p>选宽带的常见做法是&quot;店大就办大一点&quot;，这个依据是错的。<strong>决定带宽需求的是同时上网的设备数和它们在做什么，跟面积没有直接关系。</strong></p>
+<p>一个 200 平米的展厅，如果只有两台收银机联网，50M 就够了。一个 30 平米的奶茶店，如果有 8 个座位、4 路监控、还做外卖直播，200M 都可能紧张。</p>
+<h2>估算方法</h2>
+<p>按每台同时在线设备的实际需求估：</p>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">设备在干什么</th><th style="text-align:left">需要的下行</th></tr></thead><tbody><tr><td style="text-align:left">扫码支付、发微信</td><td style="text-align:left">0.5～1 Mbps</td></tr><tr><td style="text-align:left">刷短视频（1080p）</td><td style="text-align:left">5～8 Mbps</td></tr><tr><td style="text-align:left">看高清视频 / 视频会议</td><td style="text-align:left">10～20 Mbps</td></tr><tr><td style="text-align:left">远程查看监控（单路）</td><td style="text-align:left">2～4 Mbps</td></tr><tr><td style="text-align:left">直播推流</td><td style="text-align:left">5～15 Mbps（<strong>算上行</strong>）</td></tr><tr><td style="text-align:left">BT 下载</td><td style="text-align:left">有多少用多少，不可估</td></tr></tbody></table></div>
+<p><strong>估算公式</strong>：</p>
+<pre><code>所需带宽 = 峰值同时在线设备数 × 平均每台需求 × 1.5（余量）</code></pre>
+<p>举两个例子。</p>
+<p><strong>例子一：社区便利店</strong></p>
+<ul><li>收银机 1 台（0.5M）</li><li>店员手机 2 台（1M × 2）</li><li>顾客手机峰值 5 台（3M × 5）</li><li>监控 4 路，仅本地录像不上传（0）</li></ul>
+<p>合计约 17.5M，乘 1.5 余量 = <strong>26M</strong>。所以 <strong>50M 宽带完全够用</strong>，办更高是浪费。</p>
+<p><strong>例子二：咖啡馆，20 个座位</strong></p>
+<ul><li>收银机 + 点单屏 2 台（0.5M × 2）</li><li>店员手机 3 台（1M × 3）</li><li>顾客设备峰值 25 台（4M × 25）</li><li>监控 4 路 + 远程查看 1 路（4M）</li><li>背景音乐、广告屏 2 台（2M × 2）</li></ul>
+<p>合计约 118M，乘 1.5 = <strong>177M</strong>。所以 <strong>200M 是合适的档位</strong>。</p>
+<h2>上行带宽：容易被忽略的瓶颈</h2>
+<p>国内的宽带套餐，<strong>上行通常只有下行的 1/10 到 1/5</strong>。也就是说 200M 下行的套餐，上行可能只有 20M 到 40M。</p>
+<p>这会带来几个具体问题：</p>
+<p><strong>远程查看监控。</strong> 你在外面用手机看店里的监控，走的是店里的<strong>上行</strong>。4 路 1080p 摄像头同时远程观看，需要 8～16 Mbps 上行。20M 的上行几乎被吃满，同时店里的人上网会明显变卡。</p>
+<p><strong>顾客发朋友圈、传照片、视频通话。</strong> 这些都用上行。顾客多的时候，上行会先堵。</p>
+<p><strong>直播。</strong> 一场 1080p 直播推流需要 5～15 Mbps 稳定上行。如果店里同时有人在用网，很容易断流。</p>
+<p><strong>所以办宽带时要专门问清楚上行是多少。</strong> 销售人员一般只报下行数字，你得主动问。如果业务需要远程监控或直播，直接选<strong>上下行对称</strong>的商务宽带，或者&quot;千兆下行 + 百兆上行&quot;这类高上行档位。</p>
+<p>代价是商务宽带比家宽贵不少。值不值取决于你是否真的需要上行。</p>
+<h2>几个具体建议</h2>
+<p><strong>别一次性办太高。</strong> 宽带可以升级，不能退。先按估算值办，观察一到两个月，后台看实际峰值流量。如果长期跑不满一半，说明办高了。</p>
+<p><strong>看路由器的网口。</strong> 办了 200M 宽带，如果路由器是百兆口，实测永远到不了 92M 以上。<strong>这是最常见的&quot;办了宽带没用上&quot;的原因。</strong></p>
+<p><strong>注意共享还是独享。</strong> 有些便宜的套餐是&quot;共享带宽&quot;，晚间高峰期实际速度会掉。商务宽带通常是独享。签合同前问清楚。</p>
+<p><strong>IPv4 公网地址。</strong> 如果你需要远程访问店里的设备（监控、收银系统），可能需要一个公网 IP。多数家用宽带默认给的是运营商大内网地址（NAT），从外面访问不进来。打客服问能不能给公网 IP，有的地区免费给，有的要加钱。</p>
+<h2>一句话结论</h2>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">店内峰值设备数</th><th style="text-align:left">建议带宽</th></tr></thead><tbody><tr><td style="text-align:left">10 台以内</td><td style="text-align:left">50～100M</td></tr><tr><td style="text-align:left">10～25 台</td><td style="text-align:left">100～200M</td></tr><tr><td style="text-align:left">25～50 台</td><td style="text-align:left">200～500M</td></tr><tr><td style="text-align:left">50 台以上，或需要远程监控/直播</td><td style="text-align:left">500M 以上 + 高上行套餐</td></tr></tbody></table></div>
+<p>最后提醒一句：<strong>瓶颈很少在带宽上。</strong> 在换更贵的套餐之前，先确认你的路由器不是百兆口、无线信号覆盖到位——这两件事更常见地限制了你的实际速度。测试方法见<a href="/posts/slow-wifi-diagnosis.html">《网速慢，先分清是哪一段慢》</a>。</p>
+  </div>
+</article>
+
+<section class="sec">
+  <h2 class="sec__t">同栏目文章</h2>
+  <ul class="cards">
+    <li class="card">
+      <a class="card__link" href="/posts/shop-wifi-password-strategy.html">
+        <h3 class="card__t">门店 WiFi 密码该不该公开：三种方案的实际代价</h3>
+        <p class="card__s">贴墙上、定期换、扫码获取——三种做法各自损失什么，凭这条来决定用哪个。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-08-18 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/router-placement.html">
+        <h3 class="card__t">路由器放哪里：位置比型号更影响信号</h3>
+        <p class="card__s">同一台路由器，换个位置覆盖范围能差一倍。这里是被忽略最多、改动成本最低的一项。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-08-11 · 约 3 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/band-2g-or-5g.html">
+        <h3 class="card__t">2.4G 和 5G 频段怎么选：不是二选一，是分工</h3>
+        <p class="card__s">解释两个频段的物理差异，以及「双频合一」为什么经常帮倒忙。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-08-04 · 约 2 分钟</p>
+      </a>
+    </li>
+    <li class="card">
+      <a class="card__link" href="/posts/optical-modem-wifi-enough.html">
+        <h3 class="card__t">光猫自带的 WiFi 够用吗：什么情况下必须加路由器</h3>
+        <p class="card__s">运营商装的那台设备同时是光猫和路由器。它的 WiFi 什么时候能用，什么时候是瓶颈。</p>
+        <p class="card__m"><span class="tag">门店 WiFi</span> 2026-07-28 · 约 2 分钟</p>
+      </a>
+    </li>
+</ul>
+</section>
+
+</main>
+
+<footer class="ft">
+  <div class="ft__in">
+    <div class="ft__col">
+      <p class="ft__name">门店网络手册</p>
+      <p class="ft__desc">本站内容基于实际门店网络运维经验整理，供同行参考。</p>
+      <p class="ft__contact">联系：<a href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">栏目</p>
+      <a href="/category/shop-wifi.html">门店 WiFi</a><a href="/category/connect.html">顾客连接</a><a href="/category/security.html">上网安全</a><a href="/category/faq.html">故障排查</a>
+    </div>
+    <div class="ft__col">
+      <p class="ft__t">站点</p>
+      <a href="/about.html">关于我们</a>
+      <a href="/privacy.html">隐私政策</a>
+      <a href="/disclaimer.html">免责声明</a>
+      <a href="/scan/">扫码连 WiFi 工具</a>
+    </div>
+  </div>
+  <div class="ft__bar">
+    <span>© 2026 门店网络手册</span>
+    <span><span class="foot__pending">ICP 备案办理中</span></span>
+  </div>
+</footer>
+</body>
+</html>
