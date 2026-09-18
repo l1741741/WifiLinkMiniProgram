@@ -74,8 +74,9 @@ Page({
     this.setData({
       ssid: store.ssid || '',
       password: store.password || '',
-      title: config.title || '免费 WiFi',
-      notice: config.notice || '',
+      // 门店链接可以带标题/提示语，带了就用码里的 —— 改文案也不用发版
+      title: store.title || config.title || '免费 WiFi',
+      notice: store.notice || config.notice || '',
       // 显示当前是哪家店：多门店场景下必须让顾客知道自己连的是哪家
       storeName: store.name || '',
       showStoreName: !!(store.name && store.name !== '本店'),

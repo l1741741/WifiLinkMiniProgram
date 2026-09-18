@@ -140,6 +140,10 @@ App({
       name: params.name || params.n || '',
       ssid,
       password,
+      // 展示文案也允许随链接传入 ——
+      // 这样连“改标题”都不用发版（scene 模式没空间带这些，只有链接模式能）
+      title: params.title || '',
+      notice: params.notice || '',
       inline: true,
       via: 'qrlink',
     };

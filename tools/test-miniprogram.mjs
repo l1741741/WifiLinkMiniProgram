@@ -625,6 +625,28 @@ section('⑭ 扫普通链接二维码 —— 门店用草料自助出码');
   app.globalData.entry = null;
 }
 
+
+{
+  // 展示文案也能随链接传入 —— 连改标题都不用发版
+  const app = loadApp('ios');
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+  const link = 'https://d.com/w/?ssid=Shop-A&pwd=p1' +
+               '&title=' + encodeURIComponent('悦荟城店 WiFi') +
+               '&notice=' + encodeURIComponent('本网络仅供免费上网使用');
+  h.page.onLoad({ q: encodeURIComponent(link) });
+  eq('标题用链接里的', h.page.data.title, '悦荟城店 WiFi');
+  eq('提示语用链接里的', h.page.data.notice, '本网络仅供免费上网使用');
+}
+
+{
+  // 链接里没带就回退到 config.js —— 不能因为没传就把标题弄空
+  const app = loadApp('ios');
+  const h = loadPage(WIFI_PAGE, { platform: 'ios', app });
+  h.page.onLoad({ q: encodeURIComponent('https://d.com/w/?ssid=Shop-B&pwd=p2') });
+  const cfgTitle = loadConfig().title || '免费 WiFi';
+  eq('没带标题就回退到配置', h.page.data.title, cfgTitle);
+}
+
 /* ================================================================ 汇总 */
 console.log('');
 if (failures.length) {
