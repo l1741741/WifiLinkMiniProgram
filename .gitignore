@@ -17,3 +17,6 @@ screenshots/
 # 微信开发者工具生成的本地个人配置（微信官方 .gitignore 模板也包含它）
 # 里面是编译选项、基础库版本这类本机设置，不该进仓库
 miniprogram/project.private.config.json
+
+# 微信 AppSecret（tools/add-store.mjs 会存这里，绝不能进仓库）
+.secrets.json

@@ -15,7 +15,8 @@
     "check:mp": "node tools/check-miniprogram.mjs",
     "test:mp": "node tools/check-miniprogram.mjs && node tools/test-miniprogram.mjs",
     "mpcode": "node tools/gen-mpcode.mjs",
-    "storeqr": "node tools/gen-store-qr.mjs"
+    "storeqr": "node tools/gen-store-qr.mjs",
+    "add-store": "node tools/add-store.mjs"
   },
   "engines": {
     "node": ">=18"
