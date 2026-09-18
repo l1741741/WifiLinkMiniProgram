@@ -13,3 +13,7 @@ screenshots/
 .vscode/
 .idea/
 *.swp
+
+# 微信开发者工具生成的本地个人配置（微信官方 .gitignore 模板也包含它）
+# 里面是编译选项、基础库版本这类本机设置，不该进仓库
+miniprogram/project.private.config.json
